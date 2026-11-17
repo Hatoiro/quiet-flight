@@ -1753,6 +1753,8 @@ const A={ctx:null};
 function audioInit(){
   if(A.ctx){A.ctx.state==='suspended'&&A.ctx.resume&&A.ctx.resume();return}
   const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+  // iPhone: 消音スイッチ（マナーモード）がオンでも機内の音が鳴るよう「再生アプリ」として扱ってもらう
+  try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
   let ctx;try{ctx=new AC()}catch(e){return}
   A.ctx=ctx;const sr=ctx.sampleRate;
   const master=ctx.createGain();master.gain.value=0;
@@ -1797,6 +1799,16 @@ function applyVolume(){
   A.master.gain.setTargetAtTime(v*v*1.1,A.ctx.currentTime,.3);
   $('#volIcon').textContent=S.vol===0?'消音':'音';
 }
+/* iPhone は、画面に触れた瞬間にしか音を再開させてくれない。
+   アプリを切り替えて戻った時などに止まった音を、次のタップで必ず再開する */
+let audioUnlocked=false;
+function unlockAudio(){
+  const c=A.ctx;if(!c)return;
+  if(c.state!=='running'){try{c.resume()}catch(e){}}
+  if(!audioUnlocked){try{const b=c.createBuffer(1,1,22050),s=c.createBufferSource();s.buffer=b;s.connect(c.destination);s.start(0);audioUnlocked=true}catch(e){}}
+}
+['pointerdown','touchend','click','keydown'].forEach(e=>addEventListener(e,unlockAudio,{passive:true,capture:true}));
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)unlockAudio()});
 function cabinSound(on){if(A.ctx)A.amb.gain.setTargetAtTime(on?1:0,A.ctx.currentTime,on?1.4:.6)}
 function setEngine(level){
   if(!A.ctx||Math.abs(level-A.lastEng)<.015)return;
