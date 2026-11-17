@@ -1,0 +1,36 @@
+# QUIET FLIGHT
+
+機内で集中するタイマー。時間を決めて世界の空港へ「飛び」、窓の外の景色と機内の音の中で作業します。
+
+**公開版:** https://hatoiro.github.io/quiet-flight/
+
+## コマンド（Mac）
+
+最初に一度だけ: `zsh install.sh`
+
+| コマンド | すること |
+|---|---|
+| `flight` | 公開版をブラウザで開く |
+| `flight dev` | このフォルダのファイルを手元で確認（http://localhost:8765 、Ctrl+C で終了） |
+| `flight push "メモ"` | 変更を GitHub に送り、公開版を更新（1〜2分で反映） |
+
+## アプリとして置く
+
+- **iPhone:** Safari で公開版を開く → 共有ボタン → 「ホーム画面に追加」
+- **Mac:** Safari で公開版を開く → メニュー「ファイル」→「Dockに追加」
+
+一度開けば、ネットがなくても起動できます。
+
+## 記録について
+
+記録はそれぞれの端末（ブラウザ）の中に保存されます。端末を移るときは、ログブック下の「記録の書き出し・読み込み」で移せます（同じ便は二重になりません）。
+
+## 中身
+
+- `index.html` … アプリ本体（画面・音・ロジックすべて）
+- `airports.json` … 空港データ（OurAirports, パブリックドメイン）
+- `world.json` … 世界地図（Natural Earth, パブリックドメイン）
+- `lib/` … Leaflet（地図, BSD-2）, Turf.js（大圏航路, MIT）
+- `sw.js`, `manifest.webmanifest`, `icons/` … オフライン起動とホーム画面用
+
+`index.html` を更新したら、`sw.js` の `VERSION` の数字も上げると、各端末に新しい版が確実に届きます。
