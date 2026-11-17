@@ -891,6 +891,9 @@ body.sleeping .hud,body.sleeping .caption,body.sleeping .signs,body.sleeping #pl
 .dform input:focus{border-color:#ffd256}
 .issue{height:44px;padding:0 22px;border-radius:10px;background:#ffd256;color:#141519;font-weight:700;font-size:14px;letter-spacing:.05em;transition:background .2s,transform .1s}
 .issue:hover{background:#ffdc78}.issue:active{transform:scale(.98)}
+.loud{align-self:center;display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:4px 8px;font-size:12px;color:#a3a8b2;text-align:center;max-width:420px;cursor:pointer}
+.loud input{accent-color:#ffd256;width:15px;height:15px}
+.loud small{flex-basis:100%;font-size:10.5px;color:#6f7686}
 .trial{align-self:center;font-size:12px;color:#8d929c;text-decoration:underline;text-underline-offset:3px}
 
 /* ---------- charter ---------- */
@@ -1449,6 +1452,7 @@ body.lay-narrow.plan-open #mon{display:none!important}
       </div>
     </div>
     <button class="trial" id="bTrial">1分のお試し便で雰囲気だけ見る</button>
+    <label class="loud hidden" id="loudBox"><input type="checkbox" id="loud"> マナーモード中も音を鳴らす<small>オンにするとダイナミックアイランドに再生中と表示され、聴いている音楽は止まります</small></label>
   </div>
 
   <div id="issue">
@@ -1750,11 +1754,14 @@ const esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 
 /* ================= audio ================= */
 const A={ctx:null};
+/* iPhone の音の扱い
+   ambient : ほかの音楽と一緒に鳴る・ダイナミックアイランドに出ない（マナーモード中は鳴らない）
+   playback: マナーモード中も鳴る（そのかわり「再生中」表示が出て、音楽アプリは止まる） */
+function applySession(){try{if(navigator.audioSession)navigator.audioSession.type=(store.get().loud?'playback':'ambient')}catch(e){}}
 function audioInit(){
   if(A.ctx){A.ctx.state==='suspended'&&A.ctx.resume&&A.ctx.resume();return}
   const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
-  // iPhone: 消音スイッチ（マナーモード）がオンでも機内の音が鳴るよう「再生アプリ」として扱ってもらう
-  try{if(navigator.audioSession)navigator.audioSession.type='playback'}catch(e){}
+  applySession();
   let ctx;try{ctx=new AC()}catch(e){return}
   A.ctx=ctx;const sr=ctx.sampleRate;
   const master=ctx.createGain();master.gain.value=0;
@@ -2868,6 +2875,8 @@ $('#bIssue').onclick=()=>{
     issue({orig:HND_O,dest:t.stopsObj[1],no:legNo(S.trip,0),focus:trBlock,test:false,trip:true});return}
   S.trip=null;issue({dest:S.sel,no:S.sel.no,focus:S.sel.focus,test:false,charter:!!S.sel.charter});
 };
+if('audioSession' in navigator){$('#loudBox').classList.remove('hidden');$('#loud').checked=!!store.get().loud}
+$('#loud').onchange=e=>{const s=store.get();s.loud=e.target.checked;store.set(s);applySession()};
 $('#bTrial').onclick=()=>{S.trip=null;issue({dest:DESTS.find(d=>d.code==='ITM'),no:'SF001',focus:1,test:true})};
 $('#bBack').onclick=()=>{issueTimers.forEach(clearTimeout);S.trip=null;$('#issue').classList.remove('show')};
 $('#bGate').onclick=()=>{if(!$('#iacts').classList.contains('show'))return;$('#zhint').classList.remove('show');$('#iacts').classList.remove('show');beep();$('#kiosk').textContent='いってらっしゃいませ';$('#ticket').classList.add('scanned');setTimeout(board,950)};
