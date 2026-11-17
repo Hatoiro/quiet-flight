@@ -805,6 +805,21 @@ body.tri .window.side{display:block}
 .confirm{margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(255,120,100,.1);font-size:12.5px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
 /* ---------- overlays ---------- */
+.sleep{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:20px calc(20px) calc(20px + var(--sab));
+  background:radial-gradient(ellipse at 50% 42%,rgba(16,20,36,.5),rgba(3,4,8,.9) 75%);opacity:0;pointer-events:none;transition:opacity 1.8s ease;color:#dfe3ec}
+body.sleeping .sleep{opacity:1;pointer-events:auto}
+body.sleeping .hud,body.sleeping .caption,body.sleeping .signs,body.sleeping #plan,body.sleeping #mon{opacity:0!important;pointer-events:none!important;transition:opacity 1.2s}
+.zz{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;max-width:420px}
+.zz svg{width:46px;height:46px;color:#f3e7c4;filter:drop-shadow(0 0 18px rgba(243,231,196,.35));animation:breathe 6s ease-in-out infinite}
+@keyframes breathe{0%,100%{opacity:.55;transform:scale(.96)}50%{opacity:1;transform:scale(1)}}
+.zz .sl-k{font-family:var(--mono);font-size:11px;letter-spacing:.28em;color:#8f97aa}
+.zz b{font-family:var(--mono);font-weight:400;font-size:54px;letter-spacing:.04em;color:#fff;font-variant-numeric:tabular-nums;line-height:1.1}
+.zz p{margin:0;font-size:13.5px;line-height:1.75;color:#b7bdc9;text-wrap:balance}
+.zz .sl-d{font-size:12.5px;color:#8f97aa;min-height:3.2em}
+.zz .sl-d small{display:block;font-size:11.5px;opacity:.85}
+.zz .sl-d.late{color:#ffc58a}
+.zz .board{margin-top:14px;padding:0 44px;background:#e9e4d6;color:#14161c}
+.zz small{font-size:11px;color:#6f7686}
 .overlay{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:20px;overflow:auto;
   background:rgba(8,10,16,.38);backdrop-filter:blur(5px);-webkit-backdrop-filter:blur(5px);z-index:20}
 .overlay.show{display:flex;animation:fade .6s ease}
@@ -1233,7 +1248,10 @@ body.lay-narrow.plan-open #mon{display:none!important}
   .ctrls::-webkit-scrollbar{display:none}
   #bFull{display:none}
   #bSky,#bShade,#bPip{display:none}
-  .vol input{width:58px}
+  .vol{display:none}
+  .ctrls{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;overflow:visible}
+  .ctrls .cbtn{padding:0 4px;min-width:0}
+  .sleep{background:rgba(4,5,9,.95)}
   .cbtn{padding:0 9px}
 }
 </style>
@@ -1325,6 +1343,7 @@ body.lay-narrow.plan-open #mon{display:none!important}
       <button class="cbtn primary hidden" id="bSkip">すぐ離陸 ›</button>
       <button class="cbtn primary hidden" id="bCheckin">出発ロビーへ</button>
       <button class="cbtn hidden" id="bShade">シェード</button>
+      <button class="cbtn hidden" id="bSleep" title="一時中断して休む（Z キー）。休んでいる間は時間が止まります">おやすみ</button>
       <button class="cbtn" id="bBin" title="気になることを預けて集中に戻る（B キー）">荷物入れ<span class="bcnt hidden" id="binCnt">0</span></button>
       <button class="cbtn hidden" id="bPip" title="最前面に小さな窓で表示（他のタブで作業する時に）">小窓</button>
       <button class="cbtn" id="bSky">空：自動</button>
@@ -1338,6 +1357,18 @@ body.lay-narrow.plan-open #mon{display:none!important}
     この便を中止して、近くの空港に緊急着陸しますか？
     <button class="cbtn warn" id="bAbortYes">中止する</button>
     <button class="cbtn" id="bAbortNo">続ける</button>
+  </div>
+</div>
+
+<div class="sleep" id="sleep" aria-hidden="true">
+  <div class="zz">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6a.6.6 0 0 0-.8-.7A9.6 9.6 0 1 0 21.1 15.4a.6.6 0 0 0-.7-.8z"/></svg>
+    <div class="sl-k">SLEEPING · 一時中断中</div>
+    <b id="slClock">00:00</b>
+    <p>照明を落としました。<br>休んでいる間、飛行時間は止まっています。<br>起きたら、続きから飛行します。</p>
+    <p class="sl-d" id="slDelay"></p>
+    <button class="board" id="bWake">起きる</button>
+    <small>Z キーでも起きられます</small>
   </div>
 </div>
 
@@ -1633,7 +1664,8 @@ const S={
   mode:'lobby',           // lobby | taxi | flight | parked
   sel:null, fl:null, dest:null, dur:25, task:'',
   vol:saved.vol??60, skyMode:saved.sky||0, shadeOpen:true, belt:true,
-  D:1500, taxiDur:20, taxiStart:0, takeoffAt:0, flags:{}, aborted:false, abortAt:0
+  D:1500, taxiDur:20, taxiStart:0, takeoffAt:0, flags:{}, aborted:false, abortAt:0,
+  sleepAt:0, sleepMs:0, sleeps:0   // おやすみ（一時中断）
 };
 const vis={alt:0,pitch:0,bank:0,gs:0,touch:0,eng:.12,phase:''};
 
@@ -1659,14 +1691,14 @@ function ccOf(code){const d=DESTS.find(x=>x.code===code);if(d)return d.cc;const 
 function streakOf(days){const d=new Date();if(!days.has(dayKey(d))){d.setDate(d.getDate()-1);if(!days.has(dayKey(d)))return 0}let n=0;while(days.has(dayKey(d))){n++;d.setDate(d.getDate()-1)}return n}
 function bestStreak(days){let best=0,run=0,prev=null;for(const k of [...days].sort()){const t=new Date(k+'T12:00:00');run=prev&&Math.round((t-prev)/864e5)===1?run+1:1;best=Math.max(best,run);prev=t}return best}
 function recompute(){
-  const ok=LOG.filter(f=>!f.aborted);
+  const ok=LOG.filter(f=>!f.aborted),onTime=ok.filter(f=>(f.sleep||0)<=15);   // 航空業界と同じく、15分以内の遅れは定時
   const vs=new Set(legacy);ok.forEach(f=>vs.add(f.to));visited=[...vs];
   const cs=new Set();visited.forEach(c=>{const x=ccOf(c);if(x)cs.add(x)});
   const days=new Set(ok.map(f=>f.day));
   Object.assign(ST,{miles:LOG.reduce((a,f)=>a+(f.miles||0),0),focus:LOG.reduce((a,f)=>a+(f.focus||0),0),km:LOG.reduce((a,f)=>a+(f.km||0),0),
     flights:ok.length,countries:cs,days,streak:streakOf(days),best:bestStreak(days),trips:new Set(LOG.filter(f=>f.transit>0).map(f=>f.trip)).size,
     goalsDone:LOG.reduce((a,f)=>a+(f.goals||[]).filter(g=>g.done).length,0),goalsAll:LOG.reduce((a,f)=>a+(f.goals||[]).length,0),
-    legsAll:LOG.length,legsOk:ok.length,legs7:LOG.filter(f=>f.t>Date.now()-7*864e5).length,ok7:ok.filter(f=>f.t>Date.now()-7*864e5).length});
+    legsAll:LOG.length,legsOk:onTime.length,legs7:LOG.filter(f=>f.t>Date.now()-7*864e5).length,ok7:onTime.filter(f=>f.t>Date.now()-7*864e5).length});
 }
 recompute();
 // ---- account sync: one document per month under the viewer's private subtree; this browser keeps a copy ----
@@ -2090,7 +2122,7 @@ function profile(t){
   if(t<S.C){const u=(t-S.R)/(S.C-S.R);o.alt=u;o.pitch=smooth(0,.06,u)*lerp(1,.4,u);o.bank=.55*smooth(.66,.74,u)*(1-smooth(.84,.94,u));o.eng=lerp(1,.72,u);o.phase='上昇中';return o}
   o.alt=1;o.pitch=.04;return o;
 }
-function flightT(){return(Date.now()-S.takeoffAt)/1000}
+function flightT(){return((S.sleepAt||Date.now())-S.takeoffAt)/1000}   // 休んでいる間は時間が止まる
 
 /* ================= events ================= */
 function once(k,fn){if(!S.flags[k]){S.flags[k]=1;fn()}}
@@ -2113,7 +2145,7 @@ function runEvents(t){
 function board(){
   audioInit();
   const fl=S.fl;S.orig=fl.orig||HND_O;S.dest=fl.dest;S.dur=fl.focus;
-  planFlight();S.flags={};S.aborted=false;S.abortP=0;
+  planFlight();S.flags={};S.aborted=false;S.abortP=0;S.sleepAt=0;S.sleepMs=0;S.sleeps=0;
   $('#hOrig').textContent=S.orig.code;$('#hOrigCity').textContent=S.orig.ja;
   $('#hDest').textContent=S.dest.code;$('#hCity').textContent=S.dest.ja;
   const ap=$('#airport');ap.classList.add('leave');setTimeout(()=>{if(S.mode!=='lobby')ap.classList.add('gone');$('#issue').classList.remove('show')},1150);
@@ -2146,7 +2178,7 @@ function recordFlight(){
     from:S.orig.code,fromName:S.orig.ja,flat:S.orig.lat,flon:S.orig.lon,to:code,toName:d.ja,lat:d.lat,lon:d.lon,cc,
     km:Math.round(S.legKm*frac),legKm:S.legKm,focus,base,first,country,streakB:sb,streak,transit,miles:base+first+country+sb+transit,
     charter:!!S.fl.charter,trip:S.trip?S.trip.id:null,tripKey:S.trip?S.trip.key:null,leg:S.trip?S.trip.i+1:0,legs:S.trip?S.trip.legs:0,
-    task:S.task||'',goals:S.goals.map(g=>({t:g.t,done:!!g.done})),meal:S.meal,note:S.note||'',bin:(S.bin||[]).slice(),aborted,gate:S.fl.gate||'',seat:'23A'};
+    task:S.task||'',goals:S.goals.map(g=>({t:g.t,done:!!g.done})),meal:S.meal,note:S.note||'',bin:(S.bin||[]).slice(),aborted,gate:S.fl.gate||'',seat:'23A',sleep:Math.round((S.sleepMs||0)/60000),naps:S.sleeps||0};
   addFlight(e);
   return{e,isNew:first>0,tierBefore,tierAfter:tierOf(ST.miles)};
 }
@@ -2173,7 +2205,8 @@ function showArrival(rec){
   const tripLegs=tr?LOG.filter(f=>f.trip===tr.id):[];
   $('#aKicker').textContent=S.aborted?`${fn} · 緊急着陸`:`${fn} · ${S.orig.code} → ${d.code} · 到着${S.fl.charter?' · チャーター便':''}${tr?' · 乗り継ぎ完遂':''}`;
   $('#aTitle').textContent=S.aborted?`${S.orig.full}に引き返しました`:`${d.ja}へようこそ`;
-  $('#aLocal').textContent=`現地時刻 ${destTime(S.aborted?S.orig:d,new Date())}`;
+  const slm=Math.round((S.sleepMs||0)/60000);
+  $('#aLocal').textContent=`現地時刻 ${destTime(S.aborted?S.orig:d,new Date())}`+(S.aborted?'':slm>15?`　·　${slm}分遅れで到着（おやすみ ${S.sleeps}回）`:slm>0?`　·　定刻に到着（おやすみ ${slm}分）`:'　·　定刻に到着');
   if(tr&&!S.aborted){
     $('#aMinL').textContent='この旅で集中した時間';$('#aMin').textContent=fmtHM(tripLegs.reduce((a,f)=>a+f.focus,0));
     $('#aKmL').textContent=tr.stops.map(x=>x.code).join('→');$('#aKm').textContent=`${tripLegs.reduce((a,f)=>a+f.km,0).toLocaleString()} km`;
@@ -2253,13 +2286,15 @@ function refreshButtons(){
   $('#bSkip').classList.add('hidden');
   $('#bCheckin').classList.toggle('hidden',S.mode!=='parked');
   $('#bAbort').classList.toggle('hidden',!((S.mode==='taxi'||S.mode==='flight')&&!S.aborted));
+  $('#bSleep').classList.toggle('hidden',!(S.mode==='flight'&&!S.aborted&&flightT()<S.D));
 }
 function updateHud(o){
   let remain,lbl,prog=0,eta='';
   if(S.mode==='lobby'){remain=0;lbl='';}
   else if(S.mode==='taxi'){const e=(Date.now()-S.taxiStart)/1000;remain=S.D;lbl='飛行時間';eta='目標を書いたら「離陸する」で出発'}
   else if(S.mode==='flight'){const t=flightT();remain=S.D-t;prog=S.D>0?clamp(t/S.D,0,1):1;lbl=S.aborted?'着陸まで':'到着まで';
-    eta=remain>0?`到着予定 ${hhmm(new Date(Date.now()+remain*1000))}（現地 ${destTime(S.aborted?S.orig:S.dest,new Date(Date.now()+remain*1000))}）`:'到着しました'}
+    const late=Math.round(sleepTotal()/60000);
+    eta=remain>0?`到着予定 ${hhmm(new Date(Date.now()+remain*1000))}（現地 ${destTime(S.aborted?S.orig:S.dest,new Date(Date.now()+remain*1000))}）${late>0&&!S.aborted?` · ${late}分遅れ`:''}`:'到着しました'}
   else if(S.mode==='transit'){remain=(S.breakEnd-Date.now())/1000;lbl='次の便まで';prog=1}
   else {remain=0;lbl='到着済み';prog=S.aborted?0:1}
   $('#hRemain').textContent=fmtClock(remain);$('#hRemainLbl').textContent=lbl;
@@ -2270,7 +2305,8 @@ function updateHud(o){
   const ft=Math.round((S.cruiseFt||33000)*Math.pow(vis.alt,1.15)/100)*100;
   const kmh=Math.round(vis.alt>.002?lerp(300,S.cruiseKmh||830,smooth(0,.7,vis.alt)):vis.gs*290);
   $('#hData').textContent=`高度 ${ft.toLocaleString()} ft · ${kmh} km/h`;
-  if(S.mode==='flight'&&!S.aborted&&prog>=1)$('#bAbort').classList.add('hidden');
+  if(S.mode==='flight'&&!S.aborted&&prog>=1){$('#bAbort').classList.add('hidden');$('#bSleep').classList.add('hidden')}
+  if(S.sleepAt)updateSleep();
   $('#hEta').textContent=eta;
 }
 
@@ -2286,11 +2322,43 @@ $('#bSkip').onclick=()=>takeoffNow();
 $('#bAbort').onclick=()=>{$('#confirm').classList.remove('hidden');pokeHud()};
 $('#bAbortNo').onclick=()=>$('#confirm').classList.add('hidden');
 $('#bAbortYes').onclick=abort;
+/* ---- おやすみ（一時中断）: 時間を止め、窓を閉めて照明を落とす ---- */
+const sleepTotal=()=>(S.sleepMs||0)+(S.sleepAt?Date.now()-S.sleepAt:0);
+function updateSleep(){
+  const cur=(Date.now()-S.sleepAt)/1000,tot=Math.round(sleepTotal()/60000);
+  $('#slClock').textContent=fmtClock(cur);
+  const eta=hhmm(new Date(Date.now()+Math.max(0,S.D-flightT())*1000)),el=$('#slDelay');
+  el.classList.toggle('late',tot>15);
+  el.innerHTML=tot<1?`いま起きれば、到着予定は ${eta} です`:tot<=15?`いま起きると ${tot}分遅れの ${eta} 着<small>15分以内の遅れは定刻扱いです</small>`:`いま起きると ${tot}分遅れの ${eta} 着<small>15分を超えたので、遅延として記録されます</small>`;
+}
+function goSleep(){
+  if(S.mode!=='flight'||S.aborted||S.sleepAt||flightT()>=S.D)return;
+  S.sleepAt=Date.now();S.sleeps++;S.preShade=S.shadeOpen;
+  if(planMode==='bin')hidePlan();$('#confirm').classList.add('hidden');
+  setShade(false);document.body.classList.add('sleeping');$('#sleep').setAttribute('aria-hidden','false');
+  if(A.ctx)A.amb.gain.setTargetAtTime(.45,A.ctx.currentTime,2.5);
+  try{S.wake&&S.wake.release()}catch(e){}
+  updateSleep();refreshButtons();
+}
+function wakeUp(){
+  if(!S.sleepAt)return;
+  const d=Date.now()-S.sleepAt;S.takeoffAt+=d;S.sleepMs+=d;S.sleepAt=0;
+  document.body.classList.remove('sleeping');$('#sleep').setAttribute('aria-hidden','true');
+  setShade(S.preShade!==false);if(A.ctx)A.amb.gain.setTargetAtTime(1,A.ctx.currentTime,1.2);
+  try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(l=>S.wake=l).catch(()=>{})}catch(e){}
+  const m=Math.round(d/60000),tot=Math.round(S.sleepMs/60000),eta=hhmm(new Date(Date.now()+Math.max(0,S.D-flightT())*1000));
+  chime(true);
+  caption(`おはようございます。到着予定は${tot>0?`${tot}分遅れの`:''} ${eta} です。`,'客室乗務員より',8000);
+  refreshButtons();pokeHud();
+}
+$('#bSleep').onclick=goSleep;$('#bWake').onclick=wakeUp;
 $('#bAgain').onclick=()=>toLobby();
 $('#bStay').onclick=()=>{$('#arrival').classList.remove('show');refreshButtons()};
 $('#bCheckin').onclick=()=>toLobby();
 addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT')return;
+  if(e.key==='z'||e.key==='Z'){S.sleepAt?wakeUp():goSleep();return}
+  if(S.sleepAt)return;
   if(e.key==='s'||e.key==='S')setShade(!S.shadeOpen);
   if((e.key==='b'||e.key==='B')&&(S.mode==='flight'||S.mode==='parked')){e.preventDefault();planMode==='bin'?hidePlan():openBin()}
   if(e.key==='Escape'&&planMode==='bin')hidePlan();
@@ -2570,7 +2638,7 @@ function renderLogbook(){
     ['達成した目標',`${ST.goalsDone}<small>/ ${ST.goalsAll}</small>`],['目標達成率',ST.goalsAll?`${Math.round(ST.goalsDone/ST.goalsAll*100)}<small>%</small>`:'—']];
   const otp=ST.legsAll?ST.legsOk/ST.legsAll*100:null;
   const rank=otp===null?'':otp>=95?'世界トップクラス':otp>=85?'優秀':otp>=70?'標準':'改善の余地あり';
-  $('#lstats').innerHTML=`<div class="otp"><div class="row"><span>定時運航率（引き返さずに到着した便）</span><span class="rank">${rank}</span></div>
+  $('#lstats').innerHTML=`<div class="otp"><div class="row"><span>定時運航率（引き返さず、遅れ15分以内で到着した便）</span><span class="rank">${rank}</span></div>
     <b>${otp===null?'—':otp.toFixed(1)}<small>%</small></b><div class="bar"><i style="width:${otp||0}%"></i></div>
     <em>${ST.legsOk} / ${ST.legsAll}便 · 直近7日 ${ST.legs7?Math.round(ST.ok7/ST.legs7*100)+'%':'—'}</em></div>`+tiles.map(([a,b])=>`<div><span>${a}</span><b>${b}</b></div>`).join('');
   renderPassport();
@@ -2591,7 +2659,7 @@ function renderPasses(){
   if(!list.length){$('#passes').innerHTML='<div class="empty-note">まだ搭乗券がありません。最初の便に乗ると、ここに1枚目が並びます。</div>';$('#moreP').classList.add('hidden');return}
   $('#passes').innerHTML=list.slice(0,passShown).map(f=>{
     const cls=f.trip?'tr':f.charter?'ch':'';
-    const stamp=f.aborted?'<span class="mp-stamp">緊急着陸</span>':f.transit?'<span class="mp-stamp ok">乗継完遂</span>':f.first?'<span class="mp-stamp ok">初到着</span>':'';
+    const stamp=f.aborted?'<span class="mp-stamp">緊急着陸</span>':f.transit?'<span class="mp-stamp ok">乗継完遂</span>':f.first?'<span class="mp-stamp ok">初到着</span>':(f.sleep||0)>15?`<span class="mp-stamp">${f.sleep}分遅延</span>`:'';
     return `<div class="mpass ${cls}"><div class="mp-band"><span>${esc(f.no)}${f.trip?` · ${f.leg}/${f.legs}`:f.charter?' · CHARTER':''}</span><span>${f.day.replace(/-/g,'/')}</span></div>
       <div class="mp-route"><span>${esc(f.from)}</span>${PLANE}<span>${esc(f.to)}</span></div>
       <div class="mp-names"><span>${esc(f.fromName)}</span><span>${esc(f.toName)}</span></div>
@@ -2992,8 +3060,8 @@ function drawPip(){
   const x=196,mono='"DM Mono",ui-monospace,Menlo,monospace',jp='"Noto Sans JP",system-ui,sans-serif';
   c.fillStyle='#ffd256';c.font=`500 15px ${mono}`;c.fillText(S.dest&&S.mode!=='lobby'?`${S.orig.code} → ${S.dest.code}  ${S.fl?S.fl.no:''}`:'QUIET FLIGHT',x,44);
   c.fillStyle='#cfe3ff';c.font=`500 14px ${jp}`;c.fillText($('#hPhase').textContent.slice(0,22),x,72);
-  c.fillStyle='#9aa0aa';c.font=`12px ${jp}`;c.fillText($('#hRemainLbl').textContent||'',x,104);
-  c.fillStyle='#ffffff';c.font=`400 58px ${mono}`;c.fillText($('#hRemain').textContent,x,160);
+  c.fillStyle='#9aa0aa';c.font=`12px ${jp}`;c.fillText(S.sleepAt?'おやすみ中（時間は止まっています）':($('#hRemainLbl').textContent||''),x,104);
+  c.fillStyle=S.sleepAt?'#f3e7c4':'#ffffff';c.font=`400 58px ${mono}`;c.fillText(S.sleepAt?$('#slClock').textContent:$('#hRemain').textContent,x,160);
   // progress
   const p=parseFloat($('#trackFill').style.width)||0,bx=x,by=196,bw=W-x-26;
   c.fillStyle='rgba(255,255,255,.18)';c.fillRect(bx,by,bw,3);c.fillStyle='#9cc6ff';c.fillRect(bx,by,bw*p/100,3);
@@ -3110,7 +3178,7 @@ function frame(now){
 
   if(now-hudAt>250){hudAt=now;updateHud(o)}
   if(now-cssAt>500){cssAt=now;const r=document.documentElement.style;
-    r.setProperty('--wallB',(.16+.84*P.cabin).toFixed(3));r.setProperty('--tint',rgb(P.tint));
+    r.setProperty('--wallB',((.16+.84*P.cabin)*(S.sleepAt?.42:1)).toFixed(3));r.setProperty('--tint',rgb(P.tint));
     r.setProperty('--spill',rgb(mix(P.hor,P.mid,.3)));r.setProperty('--spillA',S.shadeOpen?(.3+.45*P.cabin).toFixed(2):'.06');}
   requestAnimationFrame(frame);
 }
