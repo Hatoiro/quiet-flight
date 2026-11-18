@@ -1007,16 +1007,75 @@ body.lay-narrow.plan-open #mon{display:none!important}
 .jbar i{display:block;height:100%;background:linear-gradient(90deg,#ffd256,#ff9d4d);border-radius:3px}
 .jcur .ghost3{height:32px;padding:0 12px;border-radius:8px;font-size:12px;color:#c9ccd3;border:1px solid rgba(255,255,255,.18)}
 .jcur .ghost3.warn{color:#ffb4a8;border-color:rgba(255,140,120,.5)}
-.tj{margin:10px 0 0;font-size:12.5px;color:#4a463e;line-height:1.6}
-.tj b{font-family:var(--mono);color:#1d3557}
-.tj .rtw{display:block;margin-top:4px;color:#b5651d;font-weight:700}
-.tch{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 2px;text-align:left}
-.tch button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:1px;padding:7px 10px;border-radius:10px;background:#efe9dc;color:#2b2a27;border:1.5px solid transparent;font-size:12.5px;line-height:1.35}
-.tch button b{font-family:var(--mono);font-size:14px;color:#1d3557}
-.tch button small{font-size:11px;color:#7a7468}
-.tch button em{font-style:normal;font-size:10.5px;color:#b5651d;font-weight:700}
-.tch button.on{border-color:#1d3557;background:#fff}
-.tch-h{font-size:11.5px;color:#7a7468;margin-top:12px;text-align:left}
+.tj{margin:8px 0 0;font-size:12.5px;color:#cfc8bb;line-height:1.6}
+.tj b{font-family:var(--mono);color:#ffd9a0;font-weight:500}
+.tj .rtw{display:block;margin-top:4px;color:#ffb46a;font-weight:700}
+.tch{display:none;grid-template-columns:1fr 1fr;gap:6px;margin:8px 0 2px;text-align:left}
+#tChoiceBox.open .tch{display:grid}
+.tch button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:1px;padding:7px 10px;border-radius:10px;background:rgba(255,255,255,.06);color:#e8e4da;border:1.5px solid transparent;font-size:12.5px;line-height:1.35}
+.tch button b{font-family:var(--mono);font-size:14px;color:#ffd9a0;font-weight:500}
+.tch button small{font-size:11px;color:#a39d92}
+.tch button em{font-style:normal;font-size:10.5px;color:#ffb46a;font-weight:700}
+.tch button.on{border-color:#ffd9a0;background:rgba(255,217,160,.12)}
+.tch-h{display:flex;align-items:center;gap:6px;width:100%;margin-top:10px;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.05);font-size:12px;color:#c9c2b5;text-align:left}
+.tch-h b{color:#ffd9a0}.tch-h i{margin-left:auto;font-style:normal;transition:transform .2s}
+#tChoiceBox.open .tch-h i{transform:rotate(180deg)}
+/* ---------- transit lounge ---------- */
+.lounge{position:fixed;inset:0;z-index:20;display:none;overflow:hidden;color:#e8e4da;background:#0b0a09}
+.lounge.show{display:block;animation:fade .9s ease}
+.lg-scene{position:absolute;inset:0}
+.lg-win{position:absolute;left:0;right:0;top:0;height:64%;overflow:hidden;background:var(--lgsky,linear-gradient(#060912,#0e1526 55%,#25283a 66%))}
+.lounge.day .lg-scene{filter:brightness(.62) saturate(.85)}
+.lg-stars{position:absolute;inset:0 0 40% 0;opacity:var(--lgstar,.7);background-image:radial-gradient(1px 1px at 12% 20%,#fff,transparent),radial-gradient(1px 1px at 34% 12%,#fff,transparent),radial-gradient(1.2px 1.2px at 58% 26%,#fff,transparent),radial-gradient(1px 1px at 76% 8%,#fff,transparent),radial-gradient(1px 1px at 88% 30%,#fff,transparent),radial-gradient(1px 1px at 46% 40%,#fff,transparent),radial-gradient(1px 1px at 22% 44%,#fff,transparent)}
+.lg-apron{position:absolute;left:0;right:0;bottom:0;height:36%;background:var(--lgapron,linear-gradient(#1a1d25,#0b0c10))}
+.lg-lights{position:absolute;left:0;right:0;top:10%;height:4px;background:radial-gradient(circle,#ffd27a 0 1.3px,transparent 2.2px) 0 0/30px 4px repeat-x;opacity:.85;filter:blur(.3px)}
+.lg-lights.b{top:46%;background:radial-gradient(circle,#6fa8ff 0 1.3px,transparent 2.2px) 12px 0/52px 4px repeat-x;opacity:.7}
+.lg-plane{position:absolute;left:36%;bottom:9%;width:min(44%,600px)}
+.lg-beacon{animation:beacon 1.6s steps(1) infinite}
+@keyframes beacon{0%{opacity:1}12%{opacity:.08}100%{opacity:.08}}
+.lg-mull{position:absolute;inset:0;background:repeating-linear-gradient(90deg,#0d0c0b 0 12px,transparent 12px calc(25% + 0px)),linear-gradient(115deg,rgba(255,255,255,.05),transparent 38%);box-shadow:inset 0 -14px 0 #0d0c0b,inset 0 10px 0 #0d0c0b}
+.lg-room{position:absolute;left:0;right:0;bottom:0;height:36%;background:linear-gradient(#1c1610,#0c0907)}
+.lg-lamp{position:absolute;right:4%;bottom:10%;width:min(60vw,640px);height:340px;background:radial-gradient(ellipse at 60% 70%,rgba(255,186,110,.20),transparent 68%)}
+.lg-counter{position:absolute;left:0;right:0;top:0;height:12px;background:linear-gradient(#4a3726,#22180f);box-shadow:0 6px 18px rgba(0,0,0,.5)}
+.lg-items{position:absolute;right:7%;bottom:calc(36% - 18px);display:flex;align-items:flex-end;gap:18px;filter:drop-shadow(0 10px 14px rgba(0,0,0,.55))}
+.lg-cup{width:118px}.lg-glass{width:44px}
+.lg-steam path{animation:steam 4.5s ease-in-out infinite;opacity:0}
+.lg-steam path:nth-child(2){animation-delay:1.5s}.lg-steam path:nth-child(3){animation-delay:3s}
+@keyframes steam{0%{opacity:0;transform:translateY(8px)}30%{opacity:.8}100%{opacity:0;transform:translateY(-14px)}}
+.lg-board{position:absolute;right:3.5%;top:calc(4% + var(--sat));--fs:12px;padding:9px 9px 7px}
+.lg-board .bt{font-size:13px;gap:7px}.lg-board .bt svg{width:15px;height:15px}.lg-board .bt small{font-size:9px}.lg-board .bclock{font-size:14px}
+.lg-board .bhead{padding:0 4px 6px}
+.lggrid{grid-template-columns:calc(var(--lw)*5) calc(var(--lw)*3) calc(var(--lw)*9) calc(var(--jw)*4);column-gap:8px;padding:2px 4px}
+.lg-main{position:absolute;left:5%;top:50%;transform:translateY(-50%);width:min(430px,90vw);max-height:92vh;overflow:auto;padding:24px 24px 18px;border-radius:20px;
+  background:rgba(16,13,10,.62);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.08);box-shadow:0 30px 80px rgba(0,0,0,.45);transition:opacity 2s}
+.lg-tag{font-family:var(--mono);font-size:10px;letter-spacing:.26em;color:#bfa57d}
+.lg-k{font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:#8d877c;margin-top:6px}
+.lg-main h1{font-size:26px;font-weight:700;margin:4px 0 2px;color:#fff;line-height:1.3}
+.lg-sub{font-size:12.5px;color:#a39d92}
+.lg-miles{font-size:12.5px;color:#c9c2b5;margin-top:8px}.lg-miles b{font-family:var(--mono);color:#ffd9a0;font-size:15px;font-weight:500}
+.lg-count{margin:14px 0 4px;padding:14px 16px;border-radius:14px;background:rgba(0,0,0,.35)}
+.lg-count small{display:block;font-size:11px;color:#a39d92}
+.lg-count b{display:block;font-family:var(--mono);font-weight:400;font-size:44px;letter-spacing:.04em;color:#ffd256;line-height:1.15}
+.lg-count span{display:block;font-size:12.5px;color:#d9d3c7}
+.lg-count em{display:block;font-style:normal;font-size:12px;color:#ffb46a;margin-top:4px;min-height:0}
+.lg-tip{margin:12px 0 0;min-height:3.2em;font-size:13px;line-height:1.65;color:#e2dccf;transition:opacity .8s}
+.lg-tip.fade{opacity:0}
+.lg-bin{margin:4px 0 0;font-size:11.5px;color:#a39d92}
+.lg-acts{display:flex;gap:8px;margin-top:12px}
+.lg-acts .board{flex:1;background:#e9e4d6;color:#14161c}
+.lg-more{height:48px;padding:0 14px;border-radius:12px;background:rgba(255,255,255,.08);color:#e8e4da;font-size:13px;white-space:nowrap}
+.lg-more:hover{background:rgba(255,255,255,.14)}
+.lg-end{display:block;width:100%;margin-top:6px;height:38px;font-size:12.5px;color:#a39d92}
+.lg-veil{position:absolute;inset:0;background:#000;opacity:0;pointer-events:none;transition:opacity 3s}
+.lg-breath{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);display:flex;flex-direction:column;align-items:center;gap:26px;opacity:0;pointer-events:none;transition:opacity 3s;text-align:center}
+.lg-breath i{width:120px;height:120px;border-radius:50%;border:1.5px solid rgba(255,225,190,.55);box-shadow:0 0 40px rgba(255,200,140,.12),inset 0 0 30px rgba(255,200,140,.08);animation:breath 10s ease-in-out infinite}
+@keyframes breath{0%,100%{transform:scale(.72)}45%{transform:scale(1.12)}55%{transform:scale(1.12)}}
+.lg-breath p{font-size:14px;color:#d8cdbb;margin:0;line-height:1.8}
+.lg-breath small{display:block;font-size:11px;color:#8d877c}
+.lounge.dim .lg-veil{opacity:.66}
+.lounge.dim .lg-main,.lounge.dim .lg-board{opacity:.16}
+.lounge.dim .lg-breath{opacity:1}
+
 .sleep,.rest{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:20px calc(20px) calc(20px + var(--sab));
   background:radial-gradient(ellipse at 50% 42%,rgba(16,20,36,.5),rgba(3,4,8,.9) 75%);opacity:0;pointer-events:none;transition:opacity 1.8s ease;color:#dfe3ec}
 .rest{background:radial-gradient(ellipse at 50% 42%,rgba(40,34,22,.45),rgba(8,7,5,.86) 75%)}
@@ -1263,6 +1322,13 @@ body.resting .hud,body.resting .caption,body.resting #plan,body.resting #mon{opa
   .cgrid{grid-template-columns:calc(var(--lw)*3) calc(var(--lw)*13) calc(var(--lw)*6)}
   .c-cty,.c-crem{display:none!important}
   .jgrid{grid-template-columns:calc(var(--lw)*3) calc(var(--lw)*7) calc(var(--jw)*2) calc(var(--lw)*1) calc(var(--jw)*4)}
+  .lg-board{left:50%;right:auto;transform:translateX(-50%);top:calc(10px + var(--sat));--fs:10.5px}
+  .lggrid{grid-template-columns:calc(var(--lw)*5) calc(var(--lw)*3) calc(var(--lw)*9) calc(var(--jw)*4);column-gap:6px;padding:2px 3px}
+  .lg-main{left:12px;right:12px;width:auto;top:auto;bottom:calc(12px + var(--sab));transform:none;max-height:calc(100vh - 236px - var(--sat) - var(--sab));padding:18px 16px 12px}
+  .lg-main h1{font-size:21px}.lg-count b{font-size:36px}
+  .lg-items{right:4%;bottom:auto;top:24%;transform:scale(.6);transform-origin:right top}
+  .lg-plane{width:84%;left:8%;bottom:12%}
+  .lg-win{height:58%}.lg-room{height:42%}
   .c-jcl,.c-jd{display:none!important}.fld.c-jcs{display:inline-flex!important}.cols .c-jcs{display:block!important}
   .chtime{flex-wrap:wrap}.chtime .lb{width:100%}
   .tch button{padding:6px 8px;font-size:12px}
@@ -1557,21 +1623,64 @@ body.resting .hud,body.resting .caption,body.resting #plan,body.resting #mon{opa
 </div>
 
 <!-- transit / layover -->
-<div class="overlay" id="transit">
-  <div class="arrive">
-    <div class="kicker" id="tKicker"></div>
-    <h1 id="tTitle"></h1>
-    <div class="local" id="tLocal"></div>
-    <div class="tmiles">この区間で <b id="tMiles">+0</b> マイル</div>
-    <div class="tj hidden" id="tJourney"></div>
-    <div class="brk"><small>次の便の搭乗開始まで</small><b id="tCount">10:00</b><span id="tNext"></span></div>
-    <div class="hidden" id="tChoiceBox"><div class="tch-h">次の行き先（選ばなければ <b id="tDefault"></b> 行きに搭乗します）</div><div class="tch" id="tChoices"></div></div>
-    <p class="tip" id="tTip"></p>
-    <div class="actions">
-      <button class="board" id="tBoard">すぐに搭乗する</button>
-      <button class="ghost" id="tEnd">ここで旅を終える</button>
+<div class="lounge" id="transit">
+  <div class="lg-scene" aria-hidden="true">
+    <div class="lg-win">
+      <div class="lg-stars"></div>
+      <div class="lg-apron"><div class="lg-lights"></div><div class="lg-lights b"></div></div>
+      <svg class="lg-plane" viewBox="0 0 600 170" aria-hidden="true">
+  <g fill="#07080b">
+    <path d="M40 92C40 74 60 66 90 66H470c50 0 90 12 116 30-26 14-66 20-116 20H90c-30 0-50-8-50-24z"/>
+    <path d="M54 70 20 6h40l60 62z"/><path d="M32 92 4 76h18l50 14z"/>
+    <path d="M250 108 186 152h52l104-42z"/><rect x="226" y="118" width="74" height="24" rx="11"/>
+    <rect x="98" y="114" width="7" height="40"/><rect x="522" y="112" width="6" height="42"/>
+  </g>
+  <g fill="#ffcf8a" opacity=".5"><rect x="112" y="80" width="6" height="7" rx="2"/><rect x="125" y="80" width="6" height="7" rx="2"/><rect x="138" y="80" width="6" height="7" rx="2"/><rect x="151" y="80" width="6" height="7" rx="2"/><rect x="164" y="80" width="6" height="7" rx="2"/><rect x="177" y="80" width="6" height="7" rx="2"/><rect x="190" y="80" width="6" height="7" rx="2"/><rect x="203" y="80" width="6" height="7" rx="2"/><rect x="216" y="80" width="6" height="7" rx="2"/><rect x="229" y="80" width="6" height="7" rx="2"/><rect x="242" y="80" width="6" height="7" rx="2"/><rect x="255" y="80" width="6" height="7" rx="2"/><rect x="268" y="80" width="6" height="7" rx="2"/><rect x="281" y="80" width="6" height="7" rx="2"/><rect x="294" y="80" width="6" height="7" rx="2"/><rect x="307" y="80" width="6" height="7" rx="2"/><rect x="320" y="80" width="6" height="7" rx="2"/><rect x="333" y="80" width="6" height="7" rx="2"/><rect x="346" y="80" width="6" height="7" rx="2"/><rect x="359" y="80" width="6" height="7" rx="2"/><rect x="372" y="80" width="6" height="7" rx="2"/><rect x="385" y="80" width="6" height="7" rx="2"/><rect x="398" y="80" width="6" height="7" rx="2"/><rect x="411" y="80" width="6" height="7" rx="2"/><rect x="424" y="80" width="6" height="7" rx="2"/><rect x="437" y="80" width="6" height="7" rx="2"/><rect x="450" y="80" width="6" height="7" rx="2"/><rect x="463" y="80" width="6" height="7" rx="2"/><rect x="476" y="80" width="6" height="7" rx="2"/><rect x="489" y="80" width="6" height="7" rx="2"/></g>
+  <path d="M548 79h18l6 7h-24z" fill="#9fb4cc" opacity=".35"/>
+  <circle class="lg-beacon" cx="300" cy="64" r="3.2" fill="#ff3b30"/>
+</svg>
+      <div class="lg-mull"></div>
     </div>
+    <div class="lg-room"><div class="lg-lamp"></div><div class="lg-counter"></div></div>
+    <div class="lg-items"><svg class="lg-cup" viewBox="0 0 130 120" aria-hidden="true">
+  <g class="lg-steam" fill="none" stroke="rgba(255,240,220,.55)" stroke-width="2.4" stroke-linecap="round">
+    <path d="M50 46c-8-10 8-16 0-28"/><path d="M64 44c-8-10 8-16 0-30"/><path d="M78 46c-8-10 8-16 0-28"/>
+  </g>
+  <ellipse cx="64" cy="108" rx="56" ry="9" fill="#e9e3d6"/><ellipse cx="64" cy="106" rx="40" ry="5" fill="#cfc7b6"/>
+  <path d="M30 58h68l-6 40c-1 6-7 9-13 9H49c-6 0-12-3-13-9z" fill="#f4efe4"/>
+  <path d="M98 66c14 0 16 18 2 22l-4 0 1-6c7-2 6-10-1-10z" fill="#f4efe4"/>
+  <ellipse cx="64" cy="58" rx="34" ry="6" fill="#3a2416"/><ellipse cx="60" cy="57" rx="14" ry="2" fill="#6b4630" opacity=".7"/>
+</svg><svg class="lg-glass" viewBox="0 0 54 110" aria-hidden="true">
+  <path d="M6 6h42l-5 98c0 3-3 5-6 5H17c-3 0-6-2-6-5z" fill="rgba(210,230,245,.10)" stroke="rgba(230,240,250,.45)" stroke-width="1.5"/>
+  <path d="M9 36h36l-3 68c0 2-2 3-4 3H16c-2 0-4-1-4-3z" fill="rgba(160,200,235,.22)"/>
+  <ellipse cx="27" cy="36" rx="18" ry="2.4" fill="rgba(220,238,250,.35)"/>
+  <path d="M13 12 16 96" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-linecap="round"/>
+</svg></div>
   </div>
+  <div class="fboard lg-board">
+    <div class="bhead"><div class="bt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 12c0-.8-.7-1.2-1.5-1.2h-5.1L10 3.5H8l2.6 7.3H5.8L4.2 8.6H2.6l1 3.4-1 3.4h1.6l1.6-2.2h4.8L8 20.5h2l4.9-7.3H20c.8 0 1.5-.4 1.5-1.2z"/></svg><span id="lgFrom">出発</span><small>DEPARTURES</small></div><div class="bclock" id="lgClock">--:--</div></div>
+    <div class="grid lggrid cols"><span>搭乗<small>BOARDING</small></span><span>行先<small>TO</small></span><span>&nbsp;<small>CITY</small></span><span>備考<small>REMARKS</small></span></div>
+    <div id="lgRows"></div>
+  </div>
+  <div class="lg-main">
+    <div class="lg-tag">TRANSIT LOUNGE · 乗り継ぎラウンジ</div>
+    <div class="lg-k" id="tKicker"></div>
+    <h1 id="tTitle"></h1>
+    <div class="lg-sub" id="tLocal"></div>
+    <div class="lg-miles">この区間で <b id="tMiles">+0</b> マイル</div>
+    <div class="tj hidden" id="tJourney"></div>
+    <div class="lg-count"><small>次の便の搭乗開始まで</small><b id="tCount">05:00</b><span id="tNext"></span><em id="lgCall"></em></div>
+    <div class="hidden" id="tChoiceBox"><button class="tch-h" id="tChange"><span>行き先を変える（いまは <b id="tDefault"></b> 行き）</span><i>▾</i></button><div class="tch" id="tChoices"></div></div>
+    <p class="lg-tip" id="lgTip"></p>
+    <p class="lg-bin" id="tTip"></p>
+    <div class="lg-acts">
+      <button class="lg-more" id="tMore">＋5分 休憩を延ばす</button>
+      <button class="board" id="tBoard">すぐに搭乗する</button>
+    </div>
+    <button class="lg-end" id="tEnd">ここで旅を終える</button>
+  </div>
+  <div class="lg-veil"></div>
+  <div class="lg-breath"><i></i><p>目を閉じて、ゆっくり呼吸しましょう<small>画面に触れると戻ります</small></p></div>
 </div>
 
 <!-- logbook -->
@@ -2342,14 +2451,13 @@ function showTransit(rec){
   $('#tEnd').textContent=tr.kind==='journey'?'今日はここまで（続きは次回この空港から）':'ここで旅を終える';
   if(tr.kind==='journey'){showJourneyTransit(rec);return}
   const next=tr.stops[tr.i+2];
-  S.mode='transit';S.breakEnd=Date.now()+tr.brk*60000;cabinSound(false);refreshButtons();chime(true);
+  S.mode='transit';S.breakEnd=Date.now()+tr.brk*60000;loungeSound();refreshButtons();chime(true);
   $('#tKicker').textContent=`${S.fl.no} · ${S.orig.code} → ${hub.code} · ${tr.i+1}/${tr.legs}区間 到着`;
   $('#tTitle').textContent=`${hub.ja}で乗り継ぎ`;
   $('#tLocal').textContent=`現地時刻 ${destTime(hub,new Date())}`;
   $('#tMiles').textContent=rec?`+${rec.e.miles.toLocaleString()}`:'+0';
   $('#tNext').textContent=`${legNo(tr,tr.i+1)}便 ${next.full}行き · 集中 ${fmtHM(tr.block)}`;
-  $('#tTip').textContent=TIPS[(tr.i+Math.floor(Date.now()/6e4))%TIPS.length]+((S.bin||[]).length?`　荷物入れに ${S.bin.length}件 お預かりしています。`:'');
-  $('#transit').classList.add('show');
+  openLounge(hub);
 }
 function nextLeg(){
   const tr=S.trip;if(!tr||S.mode!=='transit')return;
@@ -2366,8 +2474,69 @@ function nextLeg(){
 setInterval(()=>{
   if(S.mode!=='transit')return;
   const left=(S.breakEnd-Date.now())/1000;$('#tCount').textContent=fmtClock(left);
+  loungeTick(left);
   if(left<=0)nextLeg();
 },250);
+/* ---- 乗り継ぎラウンジ ---- */
+const LOUNGE_TIPS=['コーヒーか水を一杯どうぞ。水分をとると、次のセットの集中が続きます。','画面から目を離して、窓の外の遠くを20秒ほど眺めましょう。',
+  '目を閉じて、4秒かけて吸って、6秒かけて吐く。3回くり返しましょう。','立ち上がって、肩と首をゆっくり回しましょう。背中も一度伸ばして。',
+  'まばたきを10回、ゆっくり。目の乾きがやわらぎます。','スマホは見ずに、ぼんやりするのがいちばんの休憩です。',
+  '次の区間でやることを、ひとつだけ決めておきましょう。','照明を落としています。少しのあいだ、目を閉じて休みましょう。'];
+const lg={t0:0,act:0,k:-1,call:0,ext:0};
+const lgRowEls=[];
+function ensureLgRows(){if(lgRowEls.length)return;   // 案内板の部品はページ後半で定義されるので、初めて使う時に作る
+for(let i=0;i<4;i++){
+  const r=document.createElement('div');r.className='grid lggrid frow empty';
+  r.f={time:mkField(5,'l',''),code:mkField(3,'l',''),city:mkField(9,'l',''),rem:mkField(4,'j','')};
+  Object.values(r.f).forEach(f=>r.appendChild(f));
+  r.onclick=()=>{if(r._d&&S.trip&&S.trip.kind==='journey'&&r._d!==S.jNext){S.jNext=r._d;markChoice()}};
+  $('#lgRows').appendChild(r);lgRowEls.push(r);
+}}
+function loungeList(){
+  const tr=S.trip;if(!tr)return[];
+  if(tr.kind==='journey'){const n=S.jNext;return n?[n,...(S.jChoices||[]).filter(x=>x!==n)].slice(0,4):[]}
+  const nx=tr.stops[tr.i+2];return nx?[nx]:[];
+}
+function renderLoungeBoard(){
+  ensureLgRows();const L=loungeList(),t=hhmm(new Date(S.breakEnd)),left=(S.breakEnd-Date.now())/1000;
+  lgRowEls.forEach((r,i)=>{
+    const d=L[i]||null;r._d=d;r.classList.toggle('empty',!d);r.classList.toggle('sel',!!d&&i===0);
+    if(!d){for(const k in r.f)setField(r.f[k],'',i);return}
+    setField(r.f.time,t,i);setField(r.f.code,d.code,i);setField(r.f.city,asciiUp(d.city||enName(d)).slice(0,9),i);
+    setField(r.f.rem,i===0?(left<=60?'搭乗開始':'ご搭乗便'):d.rec?'おすすめ':'変更可',i);
+  });
+}
+function localHour(d){
+  try{if(d.tz)return +new Intl.DateTimeFormat('en-GB',{hour:'numeric',hourCycle:'h23',timeZone:d.tz}).format(new Date())}catch(e){}
+  return((new Date().getUTCHours()+Math.round(d.lon/15))%24+24)%24;
+}
+const LG_SKY={night:['linear-gradient(#05080f,#0b1322 52%,#1e2333 64%)','linear-gradient(#171a22,#0a0b0f)','.75'],
+  dusk:['linear-gradient(#1a2040,#4b3f63 40%,#b06a52 60%,#d8925e 64%)','linear-gradient(#2a2026,#110e10)','.25'],
+  day:['linear-gradient(#5f7fa6,#9fb6cf 58%,#cfd8e0 64%)','linear-gradient(#4a4e56,#2a2c31)','0']};
+function loungeSound(){if(A.ctx)A.amb.gain.setTargetAtTime(.16,A.ctx.currentTime,1.5)}   // 空調のような静かな室内音
+function openLounge(hub){
+  const h=localHour(hub),k=h>=20||h<5?'night':(h<8||h>=17)?'dusk':'day',L=$('#transit');
+  L.classList.remove('night','dusk','day','dim');L.classList.add(k);
+  L.style.setProperty('--lgsky',LG_SKY[k][0]);L.style.setProperty('--lgapron',LG_SKY[k][1]);L.style.setProperty('--lgstar',LG_SKY[k][2]);
+  $('#lgFrom').textContent=`${hub.code} 出発`;$('#lgCall').textContent='';
+  $('#tTip').textContent=(S.bin||[]).length?`荷物入れに ${S.bin.length}件 お預かりしています。`:'';
+  lg.t0=Date.now();lg.act=Date.now();lg.k=-1;lg.call=0;lg.ext=0;$('#tMore').textContent='＋5分 休憩を延ばす';
+  renderLoungeBoard();loungeTick((S.breakEnd-Date.now())/1000);L.classList.add('show');
+}
+function loungeTick(left){
+  const L=$('#transit');if(!L.classList.contains('show'))return;
+  $('#lgClock').textContent=hhmm(new Date());
+  L.classList.toggle('dim',Date.now()-lg.act>20000&&left>40);
+  const k=Math.floor((Date.now()-lg.t0)/22000);
+  if(k!==lg.k){lg.k=k;const el=$('#lgTip'),t=LOUNGE_TIPS[(k+(S.trip?S.trip.i:0))%LOUNGE_TIPS.length];
+    if(k===0)el.textContent=t;else{el.classList.add('fade');setTimeout(()=>{el.textContent=t;el.classList.remove('fade')},800)}}
+  if(left<=60&&!lg.call){lg.call=1;chime(true);$('#lgCall').textContent='まもなく搭乗開始です。準備ができたらゲートへ。';renderLoungeBoard()}
+  if(left>60&&lg.call){lg.call=0;$('#lgCall').textContent='';renderLoungeBoard()}
+}
+['pointermove','pointerdown','keydown','touchstart','wheel'].forEach(e=>addEventListener(e,()=>{lg.act=Date.now();if(S.mode==='transit')$('#transit').classList.remove('dim')},{passive:true}));
+$('#tMore').onclick=()=>{if(S.mode!=='transit')return;S.breakEnd=Math.max(S.breakEnd,Date.now())+5*60000;lg.ext+=5;
+  $('#tMore').textContent=`＋5分（延長 ${lg.ext}分）`;renderLoungeBoard();loungeTick((S.breakEnd-Date.now())/1000)};
+$('#tChange').onclick=()=>$('#tChoiceBox').classList.toggle('open');
 function abort(){
   $('#confirm').classList.add('hidden');
   if(S.mode==='taxi'){hidePlan();S.abortP=0;S.mode='flight';S.takeoffAt=Date.now();S.D=0;S.descStart=0;S.descAlt=0;S.aborted=true;S.abortAt=0;S.rollDur=4;return}
@@ -2834,7 +3003,7 @@ setInterval(()=>{$('#jClock').textContent=hhmm(new Date())},1000);$('#jClock').t
 /* transit screen for the journey */
 function showJourneyTransit(rec){
   const tr=S.trip,hub=S.dest;
-  S.mode='transit';S.breakEnd=Date.now()+tr.brk*60000;cabinSound(false);refreshButtons();chime(true);
+  S.mode='transit';S.breakEnd=Date.now()+tr.brk*60000;loungeSound();refreshButtons();chime(true);
   $('#tKicker').textContent=`${S.fl.no} · ${S.orig.code} → ${hub.code} · ${tr.i+1}区間目 到着`;
   $('#tTitle').textContent=`${hub.ja}で乗り継ぎ`;
   $('#tLocal').textContent=`現地時刻 ${destTime(hub,new Date())}　·　${ccJa(hub.cc)}`;
@@ -2843,18 +3012,17 @@ function showJourneyTransit(rec){
   if(j){const r=rtwText(j),ok=j.legs.filter(f=>!f.aborted).length;
     $('#tJourney').innerHTML=`この旅 ${ok}区間 · <b>${Math.round(j.km).toLocaleString()}</b> km · ${j.cc.size}か国・地域 · 世界一周 <b>${r.p.toFixed(r.p<10?1:0)}%</b>${r.dir?`（${r.dir}）`:''}${rec&&rec.e.rtw?`<span class="rtw">🌏 世界一周を達成しました！ +${rec.e.rtw.toLocaleString()} マイル</span>`:''}`}
   const C=jCands(hub,tr.block,6);S.jChoices=C;S.jNext=C.find(x=>x.rec)||C[0]||null;
-  $('#tDefault').textContent=S.jNext?S.jNext.ja:'—';
   const box=$('#tChoices');box.innerHTML='';
   C.forEach(d=>{const b=document.createElement('button');b._d=d;
     b.innerHTML=`<b>${d.code}</b><span>${esc(d.ja)}</span><small>${d.dir} · ${d.km.toLocaleString()} km${d.sets>1?` · ${d.sets}セット`:''}</small>${d.rec?'<em>おすすめ</em>':d.newCc?'<em>新しい国</em>':''}`;
     b.onclick=()=>{S.jNext=d;markChoice()};box.appendChild(b)});
-  markChoice();
-  $('#tTip').textContent=TIPS[(tr.i+Math.floor(Date.now()/6e4))%TIPS.length]+((S.bin||[]).length?`　荷物入れに ${S.bin.length}件 お預かりしています。`:'');
-  $('#transit').classList.add('show');
+  $('#tChoiceBox').classList.remove('open');markChoice();
+  openLounge(hub);
 }
 function markChoice(){
   const d=S.jNext;[...$('#tChoices').children].forEach(b=>b.classList.toggle('on',b._d===d));
   $('#tNext').textContent=d?`${jNo(S.trip.i+1)}便 ${d.full}行き · 集中 ${fmtHM(d.focus)}${d.sets>1?`（${d.sets}セット）`:''}`:'';
+  $('#tDefault').textContent=d?d.ja:'—';renderLoungeBoard();
 }
 /* in-flight rest between sets */
 function startRest(j){
