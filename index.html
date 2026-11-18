@@ -805,8 +805,6 @@ body.tri .window.side{display:block}
 .confirm{margin-top:10px;padding:10px 12px;border-radius:10px;background:rgba(255,120,100,.1);font-size:12.5px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
 
 /* ---------- overlays ---------- */
-.sleep{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:20px calc(20px) calc(20px + var(--sab));
-  background:radial-gradient(ellipse at 50% 42%,rgba(16,20,36,.5),rgba(3,4,8,.9) 75%);opacity:0;pointer-events:none;transition:opacity 1.8s ease;color:#dfe3ec}
 body.sleeping .sleep{opacity:1;pointer-events:auto}
 body.sleeping .hud,body.sleeping .caption,body.sleeping .signs,body.sleeping #plan,body.sleeping #mon{opacity:0!important;pointer-events:none!important;transition:opacity 1.2s}
 .zz{display:flex;flex-direction:column;align-items:center;gap:10px;text-align:center;max-width:420px}
@@ -998,6 +996,33 @@ body.lay-narrow.plan-open #mon{display:none!important}
 .tab.special{border:1px dashed rgba(255,210,86,.6);color:#ffd256;background:transparent}
 .tab.special.sel{background:#ffd256;color:#141519;border-style:solid}
 .tgrid{grid-template-columns:calc(var(--jw)*7) calc(var(--lw)*15) calc(var(--lw)*2) calc(var(--lw)*4) calc(var(--lw)*6) calc(var(--jw)*4)}
+/* ---- どこまで行けるか（乗り継ぎの旅） ---- */
+.jgrid{grid-template-columns:calc(var(--lw)*3) calc(var(--lw)*12) calc(var(--jw)*2) calc(var(--lw)*6) calc(var(--lw)*1) calc(var(--jw)*4)}
+.c-jcs{display:none!important}
+.jcur{width:100%;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px;padding:12px 14px;border-radius:12px;background:linear-gradient(135deg,rgba(255,210,86,.10),rgba(255,210,86,.03));border:1px solid rgba(255,210,86,.22)}
+.jcur .jl{flex:1;min-width:220px;font-size:12.5px;color:#c9ccd3;line-height:1.65}
+.jcur .jl b{color:#ffd256;font-family:var(--mono);font-weight:500}
+.jcur .jl strong{display:block;font-size:15px;color:#fff;font-weight:700;margin-bottom:2px}
+.jbar{height:5px;border-radius:3px;background:rgba(255,255,255,.1);overflow:hidden;margin-top:6px;max-width:360px}
+.jbar i{display:block;height:100%;background:linear-gradient(90deg,#ffd256,#ff9d4d);border-radius:3px}
+.jcur .ghost3{height:32px;padding:0 12px;border-radius:8px;font-size:12px;color:#c9ccd3;border:1px solid rgba(255,255,255,.18)}
+.jcur .ghost3.warn{color:#ffb4a8;border-color:rgba(255,140,120,.5)}
+.tj{margin:10px 0 0;font-size:12.5px;color:#4a463e;line-height:1.6}
+.tj b{font-family:var(--mono);color:#1d3557}
+.tj .rtw{display:block;margin-top:4px;color:#b5651d;font-weight:700}
+.tch{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin:10px 0 2px;text-align:left}
+.tch button{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:1px;padding:7px 10px;border-radius:10px;background:#efe9dc;color:#2b2a27;border:1.5px solid transparent;font-size:12.5px;line-height:1.35}
+.tch button b{font-family:var(--mono);font-size:14px;color:#1d3557}
+.tch button small{font-size:11px;color:#7a7468}
+.tch button em{font-style:normal;font-size:10.5px;color:#b5651d;font-weight:700}
+.tch button.on{border-color:#1d3557;background:#fff}
+.tch-h{font-size:11.5px;color:#7a7468;margin-top:12px;text-align:left}
+.sleep,.rest{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;padding:20px calc(20px) calc(20px + var(--sab));
+  background:radial-gradient(ellipse at 50% 42%,rgba(16,20,36,.5),rgba(3,4,8,.9) 75%);opacity:0;pointer-events:none;transition:opacity 1.8s ease;color:#dfe3ec}
+.rest{background:radial-gradient(ellipse at 50% 42%,rgba(40,34,22,.45),rgba(8,7,5,.86) 75%)}
+body.resting .rest{opacity:1;pointer-events:auto}
+body.resting .hud,body.resting .caption,body.resting #plan,body.resting #mon{opacity:0!important;pointer-events:none!important;transition:opacity 1.2s}
+.rest .zz svg{color:#ffd9a0}
 
 /* ---------- arrival miles / transit ---------- */
 .miles{margin:16px 0 8px;padding:14px 16px;border-radius:14px;background:linear-gradient(135deg,#1d3557,#2b4d7a);color:#fff;text-align:left}
@@ -1025,7 +1050,7 @@ body.lay-narrow.plan-open #mon{display:none!important}
 /* ---------- logbook ---------- */
 #logbook{position:fixed;inset:0;z-index:50;overflow-y:auto;color:#e9e9e4;background:linear-gradient(180deg,#171a21,#0d0e12);display:none}
 #logbook.show{display:block;animation:fade .35s ease}
-.lb{max-width:980px;margin:0 auto;padding:calc(24px + var(--sat)) 16px calc(56px + var(--sab));display:flex;flex-direction:column;gap:24px}
+#logbook>.lb{max-width:980px;margin:0 auto;padding:calc(24px + var(--sat)) 16px calc(56px + var(--sab));display:flex;flex-direction:column;gap:24px}
 .lb-head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px}
 .lb-head small{font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:#8d929c}
 .lb-head h2{font-size:22px;margin-top:2px}
@@ -1237,6 +1262,10 @@ body.lay-narrow.plan-open #mon{display:none!important}
   .c-code,.c-arr{display:none!important}
   .cgrid{grid-template-columns:calc(var(--lw)*3) calc(var(--lw)*13) calc(var(--lw)*6)}
   .c-cty,.c-crem{display:none!important}
+  .jgrid{grid-template-columns:calc(var(--lw)*3) calc(var(--lw)*7) calc(var(--jw)*2) calc(var(--lw)*1) calc(var(--jw)*4)}
+  .c-jcl,.c-jd{display:none!important}.fld.c-jcs{display:inline-flex!important}.cols .c-jcs{display:block!important}
+  .chtime{flex-wrap:wrap}.chtime .lb{width:100%}
+  .tch button{padding:6px 8px;font-size:12px}
   .chmap{height:240px}
   .bigflap{--fs:22px}
   .bt{font-size:16px}.bclock{font-size:16px}
@@ -1363,6 +1392,18 @@ body.lay-narrow.plan-open #mon{display:none!important}
   </div>
 </div>
 
+<div class="rest" id="rest" aria-hidden="true">
+  <div class="zz">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9h13v3.5A5.5 5.5 0 0 1 11.5 18h-2A5.5 5.5 0 0 1 4 12.5zm13 1h1.2a2.3 2.3 0 0 1 0 4.6H17v-1.6h1.2a.7.7 0 0 0 0-1.4H17zM3 19.5h16v1.5H3zM8 3.5c.9 1-.9 2 0 3M11 3c.9 1-.9 2 0 3M14 3.5c.9 1-.9 2 0 3" stroke="currentColor" stroke-width="1" fill-rule="evenodd"/></svg>
+    <div class="sl-k">IN-FLIGHT BREAK · 機内休憩</div>
+    <b id="rsClock">05:00</b>
+    <p id="rsText">洋上を飛行中です。シートベルトサインは消えています。<br>立ち上がって伸びをしたり、水を飲んだりしましょう。</p>
+    <p class="sl-d" id="rsNext"></p>
+    <button class="board" id="bRestEnd">作業に戻る</button>
+    <small>休憩中も飛行は続いています</small>
+  </div>
+</div>
+
 <div class="sleep" id="sleep" aria-hidden="true">
   <div class="zz">
     <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20.4 14.6A8.6 8.6 0 0 1 9.4 3.6a.6.6 0 0 0-.8-.7A9.6 9.6 0 1 0 21.1 15.4a.6.6 0 0 0-.7-.8z"/></svg>
@@ -1444,6 +1485,27 @@ body.lay-narrow.plan-open #mon{display:none!important}
         <div class="bfoot"><span>長距離を「集中＋休憩」に分けて飛びます。最後まで飛ぶと区間マイルに25%のボーナス</span></div>
       </div>
     </div>
+    <div id="journeyBox" class="hidden">
+      <div class="chbar">
+        <div class="jcur" id="jCur"></div>
+        <div class="chtime"><span class="lb">1セットの集中<small>PER SET</small></span><div class="chips2" id="jBlock"></div></div>
+        <div class="chtime"><span class="lb">乗り継ぎ休憩<small>LAYOVER</small></span><div class="chips2" id="jBreak"></div></div>
+        <div class="reach" id="jInfo"></div>
+      </div>
+      <div class="chmap" id="jMap"><div class="msg">地図を読み込んでいます…</div></div>
+      <div class="fboard">
+        <div class="bhead">
+          <div class="bt"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21.5 12c0-.8-.7-1.2-1.5-1.2h-5.1L10 3.5H8l2.6 7.3H5.8L4.2 8.6H2.6l1 3.4-1 3.4h1.6l1.6-2.2h4.8L8 20.5h2l4.9-7.3H20c.8 0 1.5-.4 1.5-1.2z"/></svg><span id="jFrom">羽田発</span><small>NEXT LEG</small></div>
+          <div class="bclock" id="jClock">--:--</div>
+        </div>
+        <div class="grid jgrid cols">
+          <span>空港<small>CODE</small></span><span class="c-jcl">都市<small>CITY</small></span><span class="c-jcs">都市<small>CITY</small></span><span>方角<small>DIR</small></span>
+          <span class="c-jd">距離 km<small>DISTANCE</small></span><span>回<small>SETS</small></span><span>備考<small>REMARKS</small></span>
+        </div>
+        <div id="jrows"></div>
+        <div class="bfoot"><span>1セットで届く空港を方角ごとに提案。海を越える区間は2〜3セット（間に機内休憩）になります</span></div>
+      </div>
+    </div>
     <div class="desk">
       <div class="hint" id="dHint">↑ 案内板から乗りたい便をタップしてください</div>
       <div class="dsel hidden" id="dSel">
@@ -1501,7 +1563,9 @@ body.lay-narrow.plan-open #mon{display:none!important}
     <h1 id="tTitle"></h1>
     <div class="local" id="tLocal"></div>
     <div class="tmiles">この区間で <b id="tMiles">+0</b> マイル</div>
+    <div class="tj hidden" id="tJourney"></div>
     <div class="brk"><small>次の便の搭乗開始まで</small><b id="tCount">10:00</b><span id="tNext"></span></div>
+    <div class="hidden" id="tChoiceBox"><div class="tch-h">次の行き先（選ばなければ <b id="tDefault"></b> 行きに搭乗します）</div><div class="tch" id="tChoices"></div></div>
     <p class="tip" id="tTip"></p>
     <div class="actions">
       <button class="board" id="tBoard">すぐに搭乗する</button>
@@ -2123,7 +2187,7 @@ function planFlight(){
   const D=S.dur*60;S.D=D;
   S.C=clamp(D*.12,22,240);S.R=clamp(S.C*.25,6,16);
   S.descStart=D-clamp(D*.15,15,300);S.descAlt=1;S.rollDur=10;
-  S.mealAt=Math.max(S.C+25,D*.5);if(S.mealAt>S.descStart-20)S.mealAt=0;
+  S.mealAt=Math.max(S.C+25,D*.5);if(S.mealAt>S.descStart-20||(S.sets||1)>1)S.mealAt=0;   // 複数セットの便は機内休憩が進み具合の確認を兼ねる
   S.legKm=Math.round(gcKm([S.orig.lat,S.orig.lon],[S.dest.lat,S.dest.lon])/10)*10;
   const km=S.legKm;S.cruiseFt=km<700?26000:km<2500?35000:39000;S.cruiseKmh=km<700?740:km<2500?830:880;
 }
@@ -2157,19 +2221,23 @@ function runEvents(t){
   if(!S.aborted&&t>=S.C+3&&t<S.descStart)once('beltoff',()=>{chime(false);setBelt(false);caption('シートベルト着用サインを消しました。到着まで、どうぞごゆっくり。')});
   if(S.goals.length&&!S.aborted&&t>=S.C+13&&t<S.descStart&&t<(S.mealAt||1e9)-12)once('task',()=>caption(S.goals.map((g,i)=>`${i+1}. ${g.t}`).join('　'),'この便の目標',9000));
   if(S.mealAt&&!S.aborted&&t>=S.mealAt&&t<S.descStart)once('meal',()=>{chime(true);caption(S.dur>=40?'これより機内食のサービスをいたします。':'これよりお飲み物のサービスをいたします。','客室乗務員より',6000);openMeal()});
+  if(S.sets>1&&!S.aborted)S.restAt.forEach((a,k)=>{const j=k+1;if(t>=a&&t<a+S.rest*60)once('rest'+j,()=>startRest(j));if(t>=a+S.rest*60&&t<S.descStart+60)once('restEnd'+j,()=>endRest(j))});
   if(!S.aborted&&t>=S.descStart)once('desc',()=>{if(planMode==='meal')closeMeal(true);chime(false);setBelt(true);caption('当機はまもなく着陸態勢に入ります。作業のまとめに入りましょう。')});
   if(t>=S.D+1.5)once('land',()=>caption(S.aborted?'緊急着陸しました。お疲れさまでした。':`${d.full}に到着いたしました。`));
   if(t>=S.D+S.rollDur)arrive();
 }
 function board(){
   audioInit();
-  const fl=S.fl;S.orig=fl.orig||HND_O;S.dest=fl.dest;S.dur=fl.focus;
+  const fl=S.fl;S.orig=fl.orig||HND_O;S.dest=fl.dest;
+  S.sets=fl.sets||1;S.rest=S.sets>1?(fl.rest||5):0;S.focusMin=fl.focus;S.dur=fl.focus+(S.sets-1)*S.rest;S.resting=0;
+  S.restAt=[];for(let j=1;j<S.sets;j++)S.restAt.push((j*fl.focus/S.sets+(j-1)*S.rest)*60);
   planFlight();S.flags={};S.aborted=false;S.abortP=0;S.sleepAt=0;S.sleepMs=0;S.sleeps=0;
   $('#hOrig').textContent=S.orig.code;$('#hOrigCity').textContent=S.orig.ja;
   $('#hDest').textContent=S.dest.code;$('#hCity').textContent=S.dest.ja;
   const ap=$('#airport');ap.classList.add('leave');setTimeout(()=>{if(S.mode!=='lobby')ap.classList.add('gone');$('#issue').classList.remove('show')},1150);
-  const carry=S.trip&&S.trip.i>0?S.goals.filter(g=>!g.done).map(g=>g.t):[];
-  S.goals=[];S.meal=null;S.note='';S.task='';if(!(S.trip&&S.trip.i>0))S.bin=[];renderBinCount();
+  const cont=!!(S.trip&&S.mode==='transit');   // 同じ旅の続きの区間（前の区間の目標と荷物入れを引き継ぐ）
+  const carry=cont&&S.goals?S.goals.filter(g=>!g.done).map(g=>g.t):[];
+  S.goals=[];S.meal=null;S.note='';S.task='';if(!cont||!S.bin)S.bin=[];renderBinCount();
   S.mode='taxi';S.taxiStart=Date.now();setBelt(true);setShade(true);cabinSound(true);
   setupMonitor();openGoalPlan(carry);
   try{navigator.wakeLock&&navigator.wakeLock.request('screen').then(l=>S.wake=l).catch(()=>{})}catch(e){}
@@ -2180,7 +2248,8 @@ function takeoff(){S.mode='flight';S.takeoffAt=Date.now();refreshButtons();pokeH
 /* ---- mileage for one leg ---- */
 function recordFlight(){
   if(S.fl.test)return null;
-  const aborted=S.aborted,frac=aborted?(S.abortP||0):1,focus=aborted?Math.floor((S.abortAt||0)/60):S.dur;
+  const restDone=(S.restAt||[]).reduce((a,x)=>a+clamp((S.abortAt||0)-x,0,(S.rest||0)*60),0);
+  const aborted=S.aborted,frac=aborted?(S.abortP||0):1,focus=aborted?Math.floor(((S.abortAt||0)-restDone)/60):(S.focusMin||S.dur);
   if(aborted&&focus<1)return null;
   const now=new Date(),day=dayKey(now),d=S.dest,code=d.code,cc=d.cc||ccOf(code);
   const vBefore=new Set(visited),cBefore=new Set(ST.countries),tierBefore=tierOf(ST.miles);
@@ -2193,10 +2262,12 @@ function recordFlight(){
   const finalLeg=S.trip&&!aborted&&S.trip.i===S.trip.legs-1;
   let transit=0;
   if(finalLeg)transit=Math.round((LOG.filter(f=>f.trip===S.trip.id&&!f.aborted).reduce((a,f)=>a+f.base,0)+base)*.25);
+  const isJ=!!(S.trip&&S.trip.kind==='journey');let rtw=0;
+  if(isJ&&!aborted){const j=journeys().find(x=>x.id===S.trip.id),before=j?j.dlon:0,after=before+dLon(S.orig.lon,d.lon);if(Math.abs(before)<360&&Math.abs(after)>=360)rtw=RTW_BONUS}
   const e={id:Date.now().toString(36)+Math.random().toString(36).slice(2,7),t:now.getTime(),day,no:S.fl.no,
     from:S.orig.code,fromName:S.orig.ja,flat:S.orig.lat,flon:S.orig.lon,to:code,toName:d.ja,lat:d.lat,lon:d.lon,cc,
-    km:Math.round(S.legKm*frac),legKm:S.legKm,focus,base,first,country,streakB:sb,streak,transit,miles:base+first+country+sb+transit,
-    charter:!!S.fl.charter,trip:S.trip?S.trip.id:null,tripKey:S.trip?S.trip.key:null,leg:S.trip?S.trip.i+1:0,legs:S.trip?S.trip.legs:0,
+    km:Math.round(S.legKm*frac),legKm:S.legKm,focus,base,first,country,streakB:sb,streak,transit,rtw,sets:S.sets||1,miles:base+first+country+sb+transit+rtw,
+    charter:!!S.fl.charter,trip:S.trip?S.trip.id:null,tripKey:S.trip?S.trip.key:null,leg:S.trip?S.trip.i+1:0,legs:S.trip&&!isJ?S.trip.legs:0,
     task:S.task||'',goals:S.goals.map(g=>({t:g.t,done:!!g.done})),meal:S.meal,note:S.note||'',bin:(S.bin||[]).slice(),aborted,gate:S.fl.gate||'',seat:'23A',sleep:Math.round((S.sleepMs||0)/60000),naps:S.sleeps||0};
   addFlight(e);
   return{e,isNew:first>0,tierBefore,tierAfter:tierOf(ST.miles)};
@@ -2211,6 +2282,7 @@ function fillTier(chipEl,barEl,nextEl){
   if(nextEl)nextEl.textContent=n?`${n.n}まで あと ${(n.min-ST.miles).toLocaleString()}`:'最上位ステータス';
 }
 function arrive(){
+  if(S.resting)closeRest();
   if(planMode==='meal')closeMeal(true);else hidePlan();
   S.mode='parked';refreshButtons();setBelt(false);
   const rec=recordFlight();
@@ -2230,7 +2302,7 @@ function showArrival(rec){
     $('#aMinL').textContent='この旅で集中した時間';$('#aMin').textContent=fmtHM(tripLegs.reduce((a,f)=>a+f.focus,0));
     $('#aKmL').textContent=tr.stops.map(x=>x.code).join('→');$('#aKm').textContent=`${tripLegs.reduce((a,f)=>a+f.km,0).toLocaleString()} km`;
   }else{
-    $('#aMinL').textContent='集中した時間';$('#aMin').textContent=fmtHM(S.aborted?Math.floor((S.abortAt||0)/60):S.dur);
+    $('#aMinL').textContent='集中した時間';$('#aMin').textContent=fmtHM(e?e.focus:S.aborted?Math.floor((S.abortAt||0)/60):(S.focusMin||S.dur));
     $('#aKmL').textContent='飛行距離';$('#aKm').textContent=S.aborted?(e?`${e.km.toLocaleString()} km`:'—'):`${S.legKm.toLocaleString()} km`;
   }
   renderArrivalGoals(e);
@@ -2247,6 +2319,7 @@ function showArrival(rec){
     if(e.country)li('新しい国・地域ボーナス',f(e.country));
     if(e.streakB)li(`連続${e.streak}日ボーナス（+${Math.round(Math.min(.5,.05*(e.streak-1))*100)}%）`,f(e.streakB));
     if(e.transit)li('乗り継ぎ完遂ボーナス（+25%）',f(e.transit));
+    if(e.rtw)li('世界一周達成ボーナス',f(e.rtw));
     const total=tr&&!S.aborted?tripLegs.reduce((a,x)=>a+x.miles,0):e.miles;
     animateNum($('#aMiles'),total);
     if(rec.tierAfter!==rec.tierBefore){$('#aLevel').textContent=`ステータスが「${rec.tierAfter.n}」に上がりました`;$('#aLevel').classList.remove('hidden')}
@@ -2264,7 +2337,11 @@ function showArrival(rec){
 /* ---- layover between legs ---- */
 const TIPS=['立ち上がって、肩と首をゆっくり回しましょう。','水を一杯どうぞ。目を閉じて深呼吸を3回。','画面から目を離して、遠くを20秒見てみましょう。','次の区間でやることを、ひとつだけ決めておきましょう。'];
 function showTransit(rec){
-  const tr=S.trip,hub=S.dest,next=tr.stops[tr.i+2];
+  const tr=S.trip,hub=S.dest;
+  $('#tJourney').classList.toggle('hidden',tr.kind!=='journey');$('#tChoiceBox').classList.toggle('hidden',tr.kind!=='journey');
+  $('#tEnd').textContent=tr.kind==='journey'?'今日はここまで（続きは次回この空港から）':'ここで旅を終える';
+  if(tr.kind==='journey'){showJourneyTransit(rec);return}
+  const next=tr.stops[tr.i+2];
   S.mode='transit';S.breakEnd=Date.now()+tr.brk*60000;cabinSound(false);refreshButtons();chime(true);
   $('#tKicker').textContent=`${S.fl.no} · ${S.orig.code} → ${hub.code} · ${tr.i+1}/${tr.legs}区間 到着`;
   $('#tTitle').textContent=`${hub.ja}で乗り継ぎ`;
@@ -2276,6 +2353,12 @@ function showTransit(rec){
 }
 function nextLeg(){
   const tr=S.trip;if(!tr||S.mode!=='transit')return;
+  if(tr.kind==='journey'){
+    const hub=S.dest,nx=S.jNext;if(!nx)return;
+    tr.i++;tr.stops.push(hub);$('#transit').classList.remove('show');beep();
+    S.fl={orig:hub,dest:nx,no:jNo(tr.i),focus:nx.focus,sets:nx.sets,rest:tr.brk,test:false,trip:true,gate:String(1+Math.floor(Math.random()*60))};
+    board();return;
+  }
   tr.i++;$('#transit').classList.remove('show');beep();
   S.fl={orig:tr.stops[tr.i],dest:tr.stops[tr.i+1],no:legNo(tr,tr.i),focus:tr.block,test:false,trip:true,gate:String(1+Math.floor(Math.random()*60))};
   board();
@@ -2326,6 +2409,7 @@ function updateHud(o){
   $('#hData').textContent=`高度 ${ft.toLocaleString()} ft · ${kmh} km/h`;
   if(S.mode==='flight'&&!S.aborted&&prog>=1){$('#bAbort').classList.add('hidden');$('#bSleep').classList.add('hidden')}
   if(S.sleepAt)updateSleep();
+  if(S.resting)updateRest();
   $('#hEta').textContent=eta;
 }
 
@@ -2352,6 +2436,7 @@ function updateSleep(){
 }
 function goSleep(){
   if(S.mode!=='flight'||S.aborted||S.sleepAt||flightT()>=S.D)return;
+  if(S.resting)closeRest();
   S.sleepAt=Date.now();S.sleeps++;S.preShade=S.shadeOpen;
   if(planMode==='bin')hidePlan();$('#confirm').classList.add('hidden');
   setShade(false);document.body.classList.add('sleeping');$('#sleep').setAttribute('aria-hidden','false');
@@ -2409,8 +2494,8 @@ setInterval(()=>{
   if(n&&S.mode==='lobby')flapClick(Math.min(1,n/45));
 },55);
 
-const REGIONS=[{k:'all',l:'すべて'},{k:'jp',l:'国内'},{k:'as',l:'アジア'},{k:'pa',l:'太平洋・北米'},{k:'eu',l:'中東・欧州'},{k:'charter',l:'チャーター便'},{k:'transit',l:'乗り継ぎ便'}];
-const modeOf=k=>k==='charter'||k==='transit'?k:'sched';
+const REGIONS=[{k:'all',l:'すべて'},{k:'jp',l:'国内'},{k:'as',l:'アジア'},{k:'pa',l:'太平洋・北米'},{k:'eu',l:'中東・欧州'},{k:'charter',l:'チャーター便'},{k:'transit',l:'乗り継ぎ便'},{k:'journey',l:'どこまで行けるか'}];
+const modeOf=k=>k==='charter'||k==='transit'||k==='journey'?k:'sched';
 let tab='all',page=0;const PER=8;
 const rowEls=[];
 for(let i=0;i<PER;i++){
@@ -2429,6 +2514,7 @@ function renderTabs(){
     const b=document.createElement('button');b.className='tab'+(modeOf(r.k)!=='sched'?' special':'')+(tab===r.k?' sel':'');
     if(r.k==='charter')b.innerHTML=`✈ ${r.l}<small>時間自由</small>`;
     else if(r.k==='transit')b.innerHTML=`⇄ ${r.l}<small>休憩つき</small>`;
+    else if(r.k==='journey')b.innerHTML=`◎ ${r.l}<small>${activeJourney()?'旅の途中':'乗り継ぎの旅'}</small>`;
     else{const all=DESTS.filter(d=>r.k==='all'||d.reg===r.k),done=all.filter(d=>visited.includes(d.code)).length;b.innerHTML=`${r.l}<small>${done}/${all.length}</small>`}
     b.onclick=()=>{audioInit();const was=modeOf(tab);tab=r.k;page=0;if(was!==modeOf(tab))clearSel();renderTabs();showMode()};t.appendChild(b);
   }
@@ -2436,9 +2522,9 @@ function renderTabs(){
 function clearSel(){S.sel=null;$('#dHint').classList.remove('hidden');$('#dSel').classList.add('hidden');if(chL.route)chL.route.setLatLngs([])}
 function showMode(){
   const m=modeOf(tab);
-  $('#schedBoard').classList.toggle('hidden',m!=='sched');$('#charter').classList.toggle('hidden',m!=='charter');$('#transitBox').classList.toggle('hidden',m!=='transit');
-  $('#dHint').textContent=m==='charter'?'↑ 時間を決めて、届く空港から行き先をタップしてください':m==='transit'?'↑ 乗り継ぎルートをタップしてください':'↑ 案内板から乗りたい便をタップしてください';
-  if(m==='charter'){initCharterMap();renderCharter()}else if(m==='transit')renderTransit();else renderBoard();
+  $('#schedBoard').classList.toggle('hidden',m!=='sched');$('#charter').classList.toggle('hidden',m!=='charter');$('#transitBox').classList.toggle('hidden',m!=='transit');$('#journeyBox').classList.toggle('hidden',m!=='journey');
+  $('#dHint').textContent=m==='charter'?'↑ 時間を決めて、届く空港から行き先をタップしてください':m==='transit'?'↑ 乗り継ぎルートをタップしてください':m==='journey'?'↑ 次に飛ぶ空港をタップしてください':'↑ 案内板から乗りたい便をタップしてください';
+  if(m==='charter'){initCharterMap();renderCharter()}else if(m==='transit')renderTransit();else if(m==='journey'){initJMap();renderJourney()}else renderBoard();
   renderHeader();
 }
 function renderHeader(){
@@ -2464,6 +2550,7 @@ function renderBoard(){
 function select(d){
   audioInit();S.sel=d;
   if(d.isTrip){selectTrip(d);return}
+  if(d.isJourney){selectJourney(d);return}
   if(d.charter){renderCharterRows();drawCharterRoute(d)}else renderBoard();
   $('#dHint').classList.add('hidden');$('#dSel').classList.remove('hidden');
   $('#dNo').textContent=d.no;$('#dDest').textContent=`${d.full}行き${d.charter?'（チャーター便）':''}`;
@@ -2610,6 +2697,180 @@ function selectTrip(t){
 }
 setInterval(()=>{$('#trClock').textContent=hhmm(new Date())},1000);$('#trClock').textContent=hhmm(new Date());
 
+/* ---- どこまで行けるか：着いた空港から次の行き先を選んで乗り継ぎ続ける ---- */
+const RTW_BONUS=10000,DIR8=['北','北東','東','南東','南','南西','西','北西'];
+function bearingDeg(a,b){const r=Math.PI/180,p1=a[0]*r,p2=b[0]*r,dl=(b[1]-a[1])*r,y=Math.sin(dl)*Math.cos(p2),x=Math.cos(p1)*Math.sin(p2)-Math.sin(p1)*Math.cos(p2)*Math.cos(dl);return(Math.atan2(y,x)/r+360)%360}
+const dLon=(a,b)=>{let d=b-a;while(d>180)d-=360;while(d<-180)d+=360;return d};
+let jBlock=[25,30,45,60,90].includes(+saved.jb)?+saved.jb:30,jBreak=[5,10,15].includes(+saved.jk)?+saved.jk:5,jNewArm=false;
+const jNo=i=>'WT'+String(i+1).padStart(3,'0');
+function apObj(code){
+  if(code==='HND')return HND_O;
+  const d=DESTS.find(x=>x.code===code);if(d)return d;
+  const a=AIRPORTS&&AIRPORTS.find(x=>x.code===code);if(a){const c=a.city||a.name;return{code,ja:c,full:`${c}（${code}）`,tz:null,lat:a.lat,lon:a.lon,cc:a.cc,city:c}}
+  const f=LOG.find(x=>x.to===code);if(f)return{code,ja:f.toName,full:f.toName,tz:null,lat:f.lat,lon:f.lon,cc:f.cc};
+  return HND_O;
+}
+function journeys(){
+  const m=new Map();
+  for(const f of [...LOG].sort((a,b)=>a.t-b.t)){
+    if(f.tripKey!=='journey')continue;
+    let j=m.get(f.trip);if(!j){j={id:f.trip,start:f.from,startT:f.t,legs:[],km:0,dlon:0,focus:0,ended:false,cc:new Set(),days:new Set()};m.set(f.trip,j)}
+    j.legs.push(f);j.focus+=f.focus||0;j.days.add(f.day);
+    if(!f.aborted){j.km+=f.km;j.dlon+=dLon(f.flon,f.lon);if(f.cc)j.cc.add(f.cc)}
+    if(f.jEnd)j.ended=true;j.at=f.aborted?f.from:f.to;j.last=f.t;
+  }
+  return[...m.values()];
+}
+function activeJourney(){return journeys().filter(j=>!j.ended).sort((a,b)=>b.last-a.last)[0]||null}
+function jOrigin(){const aj=activeJourney();return aj?apObj(aj.at):HND_O}
+function endJourney(j){const f=j&&j.legs[j.legs.length-1];if(!f)return;f.jEnd=true;saveLocal();recompute();queueDoc(monthOf(f))}
+const rtwText=j=>{const p=Math.min(100,Math.abs(j.dlon)/360*100);return{p,dir:Math.abs(j.dlon)<5?'':j.dlon<0?'西回り':'東回り'}};
+/* 1セットで届く空港を方角ごとに。届かない方角（海）は2〜3セットの便を出す */
+function jCands(o,block,n=8,sumIn){
+  if(!AIRPORTS)return[];
+  const O=[o.lat,o.lon],R=[0,charterKm(block),charterKm(block*2),charterKm(block*3)],vis=new Set(visited),seen=new Set([...ST.countries,'JP']);
+  const buckets=Array.from({length:8},()=>[]);
+  for(const a of AIRPORTS){
+    if(a.code===o.code||a.cc==='KP')continue;
+    const km=gcKm(O,[a.lat,a.lon]);
+    const k=km<=R[1]*1.03?1:km<=R[2]*1.03?2:km<=R[3]*1.03?3:0;if(!k)continue;
+    if(k===1&&km<Math.max(250,R[1]*.45))continue;
+    const s=Math.abs(km-R[k])/R[k]*.6+(a.large?0:.06)+(vis.has(a.code)?.12:0)-(a.cc&&!seen.has(a.cc)?.08:0)+(k-1)*.6;
+    const b=bearingDeg(O,[a.lat,a.lon]);buckets[Math.round(b/45)%8].push({a,km,k,b,s});
+  }
+  buckets.forEach(L=>L.sort((x,y)=>x.s-y.s));
+  let pick=buckets.map(L=>L[0]).filter(Boolean);
+  const extra=buckets.flatMap(L=>L.slice(1,3)).filter(x=>x.k===1).sort((x,y)=>x.s-y.s);
+  while(pick.length<n&&extra.length)pick.push(extra.shift());
+  pick=pick.slice(0,n).sort((x,y)=>x.b-y.b);
+  const aj=sumIn==null?activeJourney():null,sum=sumIn!=null?sumIn:aj?aj.dlon:0;
+  const prog=(x,sg)=>sg*dLon(o.lon,x.a.lon)/x.k;
+  // おすすめ：1セットで飛べる便を優先し、旅の向き（東回り/西回り）に一番進めるもの
+  const one=pick.filter(x=>x.k===1),best=(sg,L)=>Math.max(-1e9,...L.map(x=>prog(x,sg)));
+  let sg=Math.abs(sum)>=3?Math.sign(sum):0;   // 一度決まった向き（東回り・西回り）を保つ
+  if(!sg){const L=one.length?one:pick;sg=best(-1,L)>=best(1,L)?-1:1}
+  let pool=one.filter(x=>prog(x,sg)>0);if(!pool.length)pool=pick.filter(x=>prog(x,sg)>0);if(!pool.length)pool=pick;
+  let rec=null;for(const x of pool)if(!rec||prog(x,sg)>prog(rec,sg))rec=x;
+  return pick.map(x=>{const a=x.a,cur=DESTS.find(d=>d.code===a.code),city=cur?cur.ja:(a.city||a.name);
+    return{code:a.code,ja:city,full:cur?cur.full:`${city}（${a.code}）`,tz:cur?cur.tz:null,lat:a.lat,lon:a.lon,cc:a.cc,city:a.city||a.name,
+      km:Math.round(x.km/10)*10,sets:x.k,focus:block*x.k,dir:DIR8[Math.round(x.b/45)%8],isJourney:true,rec:x===rec,
+      newCc:!!(a.cc&&!seen.has(a.cc)),vis:vis.has(a.code),no:''}});
+}
+/* lobby panel */
+const jrowEls=[];
+for(let i=0;i<PER;i++){
+  const r=document.createElement('div');r.className='grid jgrid frow empty';
+  r.f={code:mkField(3,'l',''),cityL:mkField(12,'l','c-jcl'),cityS:mkField(7,'l','c-jcs'),dir:mkField(2,'j',''),dist:mkField(6,'l','c-jd'),sets:mkField(1,'l',''),rem:mkField(4,'j','')};
+  Object.values(r.f).forEach(f=>r.appendChild(f));r.onclick=()=>{if(r._d)select(r._d)};
+  $('#jrows').appendChild(r);jrowEls.push(r);
+}
+let jCandsNow=[],jMap=null;const jL={};
+function jChips(el,vals,get,set,fmt){el.innerHTML='';vals.forEach(v=>{const b=document.createElement('button');b.className='chip2'+(get()===v?' on':'');b.textContent=fmt(v);b.onclick=()=>{set(v);clearSel();renderJourney()};el.appendChild(b)})}
+function renderJourney(){
+  jChips($('#jBlock'),[25,30,45,60,90],()=>jBlock,v=>{jBlock=v;const s=store.get();s.jb=v;store.set(s)},fmtHM);
+  jChips($('#jBreak'),[5,10,15],()=>jBreak,v=>{jBreak=v;const s=store.get();s.jk=v;store.set(s)},v=>`${v}分`);
+  const aj=activeJourney(),o=jOrigin();
+  if(aj){const r=rtwText(aj),ok=aj.legs.filter(f=>!f.aborted).length;
+    $('#jCur').innerHTML=`<div class="jl"><strong>旅の途中 · 現在地 ${esc(o.ja)}（${o.code}）</strong>${ok}区間 · <b>${Math.round(aj.km).toLocaleString()}</b> km · ${aj.cc.size}か国・地域 · 集中 ${fmtHM(aj.focus)} · ${aj.days.size}日目<br>世界一周 <b>${r.p.toFixed(r.p<10?1:0)}%</b>${r.dir?`（${r.dir}）`:''}${Math.abs(aj.dlon)>=360?' · 達成済み':''}<div class="jbar"><i style="width:${r.p}%"></i></div></div><button class="ghost3${jNewArm?' warn':''}" id="jNew">${jNewArm?'もう一度押すと今の旅を終えます':'新しい旅を始める'}</button>`;
+    $('#jNew').onclick=()=>{if(!jNewArm){jNewArm=true;renderJourney();return}jNewArm=false;endJourney(activeJourney());clearSel();renderTabs();renderJourney()};
+  }else $('#jCur').innerHTML=`<div class="jl"><strong>羽田から、新しい旅へ</strong>着いた空港から次の行き先を選んで、乗り継ぎ続けます。今日の分が終わったら途中でやめてOK。次回はその空港から再開できます。東か西に地球を一周すると <b>+${RTW_BONUS.toLocaleString()}</b> マイル。</div>`;
+  const km=charterKm(jBlock);
+  $('#jInfo').innerHTML=`1セット <b>${fmtHM(jBlock)}</b> で届くのは約 <b>${Math.round(km).toLocaleString()} km</b>　·　着いたら <b>${jBreak}分</b> の乗り継ぎ休憩 → 次の行き先を選んで出発（選ばなければおすすめ便に自動で搭乗）`;
+  $('#jFrom').textContent=`${o.code} ${o.ja}発`;
+  if(!AIRPORTS){dataReady.then(ok=>{if(ok)renderJourney()});return}
+  jCandsNow=jCands(o,jBlock);renderJourneyRows();drawJMap();
+}
+function renderJourneyRows(){
+  jrowEls.forEach((r,i)=>{
+    const d=jCandsNow[i]||null,dl=i*1.2;r._d=d;
+    const sel=!!d&&!!S.sel&&S.sel.isJourney&&S.sel.code===d.code;
+    r.classList.toggle('empty',!d);r.classList.toggle('sel',sel);r.classList.toggle('done',!!d&&d.vis);
+    if(!d){for(const k in r.f)setField(r.f[k],'',dl);return}
+    setField(r.f.code,d.code,dl);setField(r.f.cityL,asciiUp(d.city).slice(0,12),dl);setField(r.f.cityS,asciiUp(d.city).slice(0,7),dl);
+    setField(r.f.dir,d.dir,dl);setField(r.f.dist,d.km.toLocaleString(),dl);setField(r.f.sets,String(d.sets),dl);
+    setField(r.f.rem,sel?'搭乗手続':d.rec?'おすすめ':d.newCc?'新しい国':d.vis?'訪問済み':'',dl);
+  });
+}
+function jFlightMin(d){return d.focus+(d.sets-1)*jBreak}
+function selectJourney(d){
+  renderJourneyRows();drawJRoute(d);
+  $('#dHint').classList.add('hidden');$('#dSel').classList.remove('hidden');
+  const aj=activeJourney();$('#dNo').textContent=jNo(aj?aj.legs.length:0);$('#dDest').textContent=`${d.full}行き`;
+  $('#dInfo').textContent=`${d.dir}へ ${d.km.toLocaleString()} km · 集中 ${fmtHM(jBlock)}${d.sets>1?` × ${d.sets}セット（間に機内休憩 ${jBreak}分）`:''} · ${ccJa(d.cc)}${d.newCc?'（はじめての国）':''} · 到着予定 ${hhmm(new Date(Date.now()+(S.taxiDur+jFlightMin(d)*60)*1000))}`;
+}
+const jLon=(ref,lon)=>wrapLon(ref)+dLon(ref,lon);
+async function initJMap(){
+  if(jMap){setTimeout(()=>{jMap.invalidateSize();drawJMap()},0);return}
+  const ok=await dataReady;if(jMap)return;
+  if(!ok||!window.L){$('#jMap').innerHTML='<div class="msg">地図を表示できませんでした（ネットワークを確認してください）</div>';return}
+  $('#jMap').innerHTML='';jMap=newMap('jMap',{scrollWheelZoom:false});
+  L.control.zoom({position:'bottomright'}).addTo(jMap);
+  addWorld(jMap,{color:'#34506c',weight:.6,fillColor:'#1e3349',fillOpacity:1});
+  jL.path=L.layerGroup().addTo(jMap);
+  jL.ring=L.polyline([],{color:'#ffd256',weight:1.2,dashArray:'5 6',opacity:.7,interactive:false}).addTo(jMap);
+  jL.route=L.polyline([],{color:'#ffd256',weight:2.4,opacity:.95,interactive:false}).addTo(jMap);
+  jL.cands=L.layerGroup().addTo(jMap);jL.here=L.layerGroup().addTo(jMap);
+  jMap.setView([30,150],2);setTimeout(()=>{jMap.invalidateSize();drawJMap()},30);
+}
+function drawJMap(){
+  if(!jMap||!AIRPORTS)return;
+  const o=jOrigin(),oL=wrapLon(o.lon),O=[o.lat,oL],aj=activeJourney();
+  jL.path.clearLayers();jL.cands.clearLayers();jL.here.clearLayers();
+  const pts=[O];
+  if(aj){for(const f of aj.legs){if(f.aborted)continue;const a=[f.flat,jLon(o.lon,f.flon)],b=[f.lat,a[1]+dLon(f.flon,f.lon)];
+    const g=gcPath(a,b,60);L.polyline(g,{color:'#ffb347',weight:6,opacity:.18,interactive:false}).addTo(jL.path);L.polyline(g,{color:'#ffd9a0',weight:1.8,opacity:.95,interactive:false}).addTo(jL.path);
+    L.circleMarker(b,{radius:2.6,stroke:false,fillColor:'#ffd9a0',fillOpacity:1,interactive:false}).addTo(jL.path)}
+    const s=aj.legs[0];L.circleMarker([s.flat,jLon(o.lon,s.flon)],{radius:4,color:'#ffd9a0',weight:1.5,fillColor:'#0a1828',fillOpacity:1,interactive:false}).addTo(jL.path).bindTooltip(s.from,{permanent:true,direction:'left',className:'apt-tip',offset:[-5,0]})}
+  for(const d of jCandsNow){const p=[d.lat,jLon(o.lon,d.lon)];pts.push(p);
+    L.circleMarker(p,{radius:d.rec?6.5:5.5,color:'#09090a',weight:1.5,fillColor:d.sets>1?'#9cc6ff':d.vis?'#8fe0a8':'#ffd256',fillOpacity:1}).addTo(jL.cands)
+      .bindTooltip(d.code+(d.sets>1?` ×${d.sets}`:''),{permanent:true,direction:'top',className:'apt-tip',offset:[0,-6]}).on('click',()=>select(d))}
+  L.circleMarker(O,{radius:6,color:'#fff',weight:2,fillColor:'#0a1828',fillOpacity:1}).addTo(jL.here).bindTooltip(o.code,{permanent:true,direction:'left',className:'apt-tip w',offset:[-7,0]});
+  const km=charterKm(jBlock),ring=ringPts(O,km);jL.ring.setLatLngs(ring);if(km<2600)pts.push(...ring);
+  if(S.sel&&S.sel.isJourney)drawJRoute(S.sel);else jL.route.setLatLngs([]);
+  jMap.fitBounds(L.latLngBounds(pts),{padding:[28,28],maxZoom:6,animate:true});
+}
+function drawJRoute(d){if(!jMap)return;const o=jOrigin(),O=[o.lat,wrapLon(o.lon)];jL.route.setLatLngs(gcPath(O,[d.lat,O[1]+dLon(o.lon,d.lon)],120))}
+setInterval(()=>{$('#jClock').textContent=hhmm(new Date())},1000);$('#jClock').textContent=hhmm(new Date());
+/* transit screen for the journey */
+function showJourneyTransit(rec){
+  const tr=S.trip,hub=S.dest;
+  S.mode='transit';S.breakEnd=Date.now()+tr.brk*60000;cabinSound(false);refreshButtons();chime(true);
+  $('#tKicker').textContent=`${S.fl.no} · ${S.orig.code} → ${hub.code} · ${tr.i+1}区間目 到着`;
+  $('#tTitle').textContent=`${hub.ja}で乗り継ぎ`;
+  $('#tLocal').textContent=`現地時刻 ${destTime(hub,new Date())}　·　${ccJa(hub.cc)}`;
+  $('#tMiles').textContent=rec?`+${rec.e.miles.toLocaleString()}`:'+0';
+  const j=journeys().find(x=>x.id===tr.id);
+  if(j){const r=rtwText(j),ok=j.legs.filter(f=>!f.aborted).length;
+    $('#tJourney').innerHTML=`この旅 ${ok}区間 · <b>${Math.round(j.km).toLocaleString()}</b> km · ${j.cc.size}か国・地域 · 世界一周 <b>${r.p.toFixed(r.p<10?1:0)}%</b>${r.dir?`（${r.dir}）`:''}${rec&&rec.e.rtw?`<span class="rtw">🌏 世界一周を達成しました！ +${rec.e.rtw.toLocaleString()} マイル</span>`:''}`}
+  const C=jCands(hub,tr.block,6);S.jChoices=C;S.jNext=C.find(x=>x.rec)||C[0]||null;
+  $('#tDefault').textContent=S.jNext?S.jNext.ja:'—';
+  const box=$('#tChoices');box.innerHTML='';
+  C.forEach(d=>{const b=document.createElement('button');b._d=d;
+    b.innerHTML=`<b>${d.code}</b><span>${esc(d.ja)}</span><small>${d.dir} · ${d.km.toLocaleString()} km${d.sets>1?` · ${d.sets}セット`:''}</small>${d.rec?'<em>おすすめ</em>':d.newCc?'<em>新しい国</em>':''}`;
+    b.onclick=()=>{S.jNext=d;markChoice()};box.appendChild(b)});
+  markChoice();
+  $('#tTip').textContent=TIPS[(tr.i+Math.floor(Date.now()/6e4))%TIPS.length]+((S.bin||[]).length?`　荷物入れに ${S.bin.length}件 お預かりしています。`:'');
+  $('#transit').classList.add('show');
+}
+function markChoice(){
+  const d=S.jNext;[...$('#tChoices').children].forEach(b=>b.classList.toggle('on',b._d===d));
+  $('#tNext').textContent=d?`${jNo(S.trip.i+1)}便 ${d.full}行き · 集中 ${fmtHM(d.focus)}${d.sets>1?`（${d.sets}セット）`:''}`:'';
+}
+/* in-flight rest between sets */
+function startRest(j){
+  if(S.sleepAt)return;
+  S.resting=j;document.body.classList.add('resting');$('#rest').setAttribute('aria-hidden','false');
+  if(planMode==='bin')hidePlan();chime(true);setBelt(false);updateRest();
+}
+function updateRest(){
+  const a=S.restAt[S.resting-1];if(a==null)return;const left=a+S.rest*60-flightT();
+  $('#rsClock').textContent=fmtClock(Math.max(0,left));
+  const n=S.sets-S.resting;$('#rsNext').textContent=`あと ${n}セット · 次のセットは ${hhmm(new Date(Date.now()+Math.max(0,left)*1000))} から`;
+}
+function closeRest(){S.resting=0;document.body.classList.remove('resting');$('#rest').setAttribute('aria-hidden','true')}
+function endRest(j){const was=S.resting===j;closeRest();chime(false);caption(`機内休憩は終わりです。${j+1}セット目を始めましょう（全${S.sets}セット）。`,'客室乗務員より',8000);if(was)pokeHud()}
+$('#bRestEnd').onclick=()=>{closeRest();pokeHud()};
+
 /* ---- logbook ---- */
 let lbMap=null,lbLayer=null,passShown=24;
 function refreshRecordsUI(){
@@ -2679,7 +2940,7 @@ function renderPasses(){
   $('#passes').innerHTML=list.slice(0,passShown).map(f=>{
     const cls=f.trip?'tr':f.charter?'ch':'';
     const stamp=f.aborted?'<span class="mp-stamp">緊急着陸</span>':f.transit?'<span class="mp-stamp ok">乗継完遂</span>':f.first?'<span class="mp-stamp ok">初到着</span>':(f.sleep||0)>15?`<span class="mp-stamp">${f.sleep}分遅延</span>`:'';
-    return `<div class="mpass ${cls}"><div class="mp-band"><span>${esc(f.no)}${f.trip?` · ${f.leg}/${f.legs}`:f.charter?' · CHARTER':''}</span><span>${f.day.replace(/-/g,'/')}</span></div>
+    return `<div class="mpass ${cls}"><div class="mp-band"><span>${esc(f.no)}${f.trip?(f.legs?` · ${f.leg}/${f.legs}`:` · LEG ${f.leg}`):f.charter?' · CHARTER':''}</span><span>${f.day.replace(/-/g,'/')}</span></div>
       <div class="mp-route"><span>${esc(f.from)}</span>${PLANE}<span>${esc(f.to)}</span></div>
       <div class="mp-names"><span>${esc(f.fromName)}</span><span>${esc(f.toName)}</span></div>
       <div class="mp-task">${f.goals&&f.goals.length?`目標 ${f.goals.filter(g=>g.done).length}/${f.goals.length} · ${esc(f.goals[0].t)}`:f.task?esc(f.task):''}</div>
@@ -2822,7 +3083,7 @@ function ticketHTML(fl){
       <div class="f"><small>Name of passenger 搭乗者</small><b>CLUB/${tier.en}</b></div>
       <div class="f"><small>Flight 便名</small><b>${fl.no}</b></div>
       <div class="f"><small>Date 搭乗日</small><b>${date}</b></div>
-      <div class="f"><small>Flight time 飛行時間</small><b>${fmtFocus(fl.focus)}</b></div>
+      <div class="f"><small>Flight time 飛行時間</small><b>${fmtFocus(fl.focus)}${(fl.sets||1)>1?`<i style="font-style:normal;font-size:.55em;opacity:.7"> ×${fl.sets}SET</i>`:''}</b></div>
     </div>
     <div class="t-route">
       <div class="ap2"><em>FROM 出発地</em><b>${o.code}</b><span>${esc(o.full)}　${esc(enName(o))}</span></div>
@@ -2839,7 +3100,7 @@ function ticketHTML(fl){
     <div class="t-pdf">${pdf417SVG(h)}<p>GATE CLOSES 10 MIN BEFORE DEPARTURE<br>搭乗口は出発時刻の10分前に締め切ります${next?`<br>CONNECTION ${legNo(tr,tr.i+1)} TO ${next.code} · ${enName(next)}`:''}</p></div>
   </div>
   <div class="t-stub">
-    <div class="t-sband"><span>BOARDING PASS</span><span>${tr?`LEG ${tr.i+1}/${tr.legs}`:'Y'}</span></div>
+    <div class="t-sband"><span>BOARDING PASS</span><span>${tr?(tr.kind==='journey'?`LEG ${tr.i+1}`:`LEG ${tr.i+1}/${tr.legs}`):'Y'}</span></div>
     <div class="f"><small>Name</small><b style="font-size:12px">CLUB/${tier.en}</b></div>
     <div class="route">${o.code} → ${d.code}</div>
     <div class="two"><div class="f"><small>Flight</small><b>${fl.no}</b></div><div class="f"><small>Date</small><b>${date}</b></div></div>
@@ -2873,6 +3134,9 @@ $('#bIssue').onclick=()=>{
   if(!S.sel)return;
   if(S.sel.isTrip){const t=S.sel;S.trip={id:'t'+Date.now().toString(36),key:t.key,idx:t.idx,stops:t.stopsObj,legs:t.legs,i:0,block:trBlock,brk:trBreak};
     issue({orig:HND_O,dest:t.stopsObj[1],no:legNo(S.trip,0),focus:trBlock,test:false,trip:true});return}
+  if(S.sel.isJourney){const d=S.sel,aj=activeJourney(),o=jOrigin();
+    S.trip={kind:'journey',key:'journey',id:aj?aj.id:'j'+Date.now().toString(36),idx:0,stops:[o],legs:Infinity,i:aj?aj.legs.length:0,block:jBlock,brk:jBreak};
+    issue({orig:o,dest:d,no:jNo(S.trip.i),focus:d.focus,sets:d.sets,rest:jBreak,test:false,trip:true});return}
   S.trip=null;issue({dest:S.sel,no:S.sel.no,focus:S.sel.focus,test:false,charter:!!S.sel.charter});
 };
 if('audioSession' in navigator){$('#loudBox').classList.remove('hidden');$('#loud').checked=!!store.get().loud}
@@ -2889,7 +3153,7 @@ function toLobby(){
 }
 $('#bArrLog').onclick=()=>openLog();
 $('#tBoard').onclick=()=>nextLeg();
-$('#tEnd').onclick=()=>toLobby();
+$('#tEnd').onclick=()=>{const j=S.trip&&S.trip.kind==='journey';toLobby();if(j){tab='journey';renderTabs();showMode()}};
 renderTabs();showMode();
 initSync();
 
@@ -3081,7 +3345,7 @@ function drawPip(){
   const x=196,mono='"DM Mono",ui-monospace,Menlo,monospace',jp='"Noto Sans JP",system-ui,sans-serif';
   c.fillStyle='#ffd256';c.font=`500 15px ${mono}`;c.fillText(S.dest&&S.mode!=='lobby'?`${S.orig.code} → ${S.dest.code}  ${S.fl?S.fl.no:''}`:'QUIET FLIGHT',x,44);
   c.fillStyle='#cfe3ff';c.font=`500 14px ${jp}`;c.fillText($('#hPhase').textContent.slice(0,22),x,72);
-  c.fillStyle='#9aa0aa';c.font=`12px ${jp}`;c.fillText(S.sleepAt?'おやすみ中（時間は止まっています）':($('#hRemainLbl').textContent||''),x,104);
+  c.fillStyle='#9aa0aa';c.font=`12px ${jp}`;c.fillText(S.sleepAt?'おやすみ中（時間は止まっています）':S.resting?'機内休憩中':($('#hRemainLbl').textContent||''),x,104);
   c.fillStyle=S.sleepAt?'#f3e7c4':'#ffffff';c.font=`400 58px ${mono}`;c.fillText(S.sleepAt?$('#slClock').textContent:$('#hRemain').textContent,x,160);
   // progress
   const p=parseFloat($('#trackFill').style.width)||0,bx=x,by=196,bw=W-x-26;
@@ -3206,7 +3470,7 @@ function frame(now){
 requestAnimationFrame(frame);
 
 /* hooks for quick testing in the console */
-window.__qf={S,DESTS,setCh,get chCands(){return chCands},pick:c=>select(DESTS.find(d=>d.code===c)),visit:a=>{legacy=a;saveLocal();recompute();refreshRecordsUI()},LOG:()=>LOG,ST,open:openLog,ff:s=>{if(S.mode==='flight')S.takeoffAt-=s*1000},sky:h=>{SKY_MODES[0].h=h;spriteAt=-1e9}};
+window.__qf={S,DESTS,setCh,get jc(){return jCandsNow},jCands,dLon,select,markChoice,flightT,journeys,get chCands(){return chCands},pick:c=>select(DESTS.find(d=>d.code===c)),visit:a=>{legacy=a;saveLocal();recompute();refreshRecordsUI()},LOG:()=>LOG,ST,open:openLog,ff:s=>{if(S.mode==='flight')S.takeoffAt-=s*1000},sky:h=>{SKY_MODES[0].h=h;spriteAt=-1e9}};
 })();
 </script>
 <script>

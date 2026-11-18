@@ -1,6 +1,6 @@
 // QUIET FLIGHT — オフラインでも開けるようにするための仕組み
 // 中身を更新したら VERSION の数字を上げると、各端末に新しい版が届きます。
-const VERSION = 'qf-5';
+const VERSION = 'qf-6';
 const CORE = ['./', 'index.html', 'airports.json', 'world.json', 'manifest.webmanifest',
   'lib/leaflet.js', 'lib/turf.min.js', 'icons/icon-192.png', 'icons/icon-512.png', 'icons/apple-touch-icon.png'];
 
